@@ -236,7 +236,8 @@ void control::gamestart()
 		draw(nextblock);
 		draw(curblock);
 		Sleep(400);
-		deleteblock(curblock);
+		if (curblock.gety() != 23)
+			deleteblock(curblock);
 		if (_kbhit())
 		{
 			input = _getch();
@@ -244,17 +245,18 @@ void control::gamestart()
 				curblock.Turn();
 			else if (input == LEFT)
 			{
-				if (curblock.getx() > 31);
-				curblock.setcoord(curblock.getx() - 2, curblock.gety());
+				if (curblock.getx() > 31)
+					curblock.setcoord(curblock.getx() - 2, curblock.gety());
 			}
 			else if (input == RIGHT)
 			{
-				if (curblock.getx() < 40);
-				curblock.setcoord(curblock.getx() + 2, curblock.gety());
+				if (curblock.getx() < 45)
+
+					curblock.setcoord(curblock.getx() + 2, curblock.gety());
 			}
 		}
 		curblock.setcoord(curblock.getx(), curblock.gety() + 1);
-		if (curblock.gety() == 25)
+		if (curblock.gety() == 24 )
 		{
 			deleteblock(nextblock);
 			curblock.setshape(nextblock.getshape());
