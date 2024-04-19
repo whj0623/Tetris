@@ -13,5 +13,6 @@ private:
 public: 
 	void gamestart();
 	void draw(Block block);
+	void deleteblock(Block block);
 };
 
