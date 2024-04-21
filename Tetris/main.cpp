@@ -1,5 +1,4 @@
 #include "control.h"
-#include "Object.h"
 #include "screen.h"
 
 int main()

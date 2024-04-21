@@ -142,7 +142,6 @@
     <ClInclude Include="Block.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="control.h" />
-    <ClInclude Include="Object.h" />
     <ClInclude Include="screen.h" />
   </ItemGroup>
   <ItemGroup>
@@ -150,7 +149,6 @@
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="control.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Object.cpp" />
     <ClCompile Include="screen.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
