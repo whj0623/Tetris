@@ -1,6 +1,15 @@
 #include "control.h"
 
-
+enum color
+{
+	BLUE = 9,
+	GREEN,
+	SKYBLUE,
+	RED,
+	PINK,
+	YELLOW,
+	WHITE
+};
 
 enum input
 {
@@ -205,9 +214,9 @@ bool crashcheck(int board[20][10])
 	{
 		for (int j = 0; j < 10; j++)
 		{
-			if (board[i][j] == 1)
+			if (board[i][j]%7 == 1)
 			{
-				if (i == 19 || (i + 1 <= 19 && board[i + 1][j] == 2))
+				if (i == 19 || (i + 1 <= 19 && board[i + 1][j]%7 == 2))
 					return true;
 			}
 		}
@@ -224,10 +233,31 @@ void addblock(Block block, int board[20][10])
 		{
 			if (blocks[block.getshape()][block.getturn()][i][j]&& block.gety() - 6 + i >= 0 && block.gety() - 6 + i < 20 &&
 				block.getx() - 33 + j >= 0 && block.getx() - 33 + j < 10)
-				board[block.gety() - 6 + i][block.getx() - 33 + j] = 1;
+				board[block.gety() - 6 + i][block.getx() - 33 + j] = 1 + 7 * block.getshape();
 		}
 	}
 }
+void drawblock(int a)
+{
+	scr.textcolor(9 + a/7, 0);
+	switch (a%7)
+	{
+	case 1:
+		std::cout << "□";
+		break;
+	case 2:
+		std::cout << "■";
+		break;
+	case 3:
+		std::cout << "▨";
+		break;
+	default:
+		std::cout << "  ";
+		break;
+	}
+	scr.textcolor(WHITE, 0);
+}
+
 void control::draw()
 {
 	for (int i = 0; i < 20; i++)
@@ -235,14 +265,7 @@ void control::draw()
 		for (int j = 0; j < 10; j++)
 		{
 			scr.gotoxy(j * 2 + 32, i + 6);
-			if (board[i][j] == 1)
-				std::cout << "□";
-			else if (board[i][j] == 2)
-				std::cout << "■";
-			else if (board[i][j] == 3)
-				std::cout << "▨";
-			else
-				std::cout << "  ";
+			drawblock(board[i][j]);
 		}
 	}
 }
@@ -256,10 +279,10 @@ Block moveblock(char input, Block block)
 	{
 		for (int j = 0; j < 10; j++)
 		{
-			if (board[i][j] != 1)
+			if (board[i][j]%7 != 1)
 			{
 				tempboard[i][j] = board[i][j];
-				if (board[i][j] == 2)
+				if (board[i][j]%7 == 2 )
 					count2++;
 			}
 		}
@@ -294,9 +317,9 @@ Block moveblock(char input, Block block)
 	{
 		for (int j = 0; j < 10; j++)
 		{
-			if (tempboard[i][j] == 1)
+			if (tempboard[i][j]%7 == 1 )
 				check++;
-			else if (tempboard[i][j] == 2)
+			else if (tempboard[i][j]%7 == 2 )
 				check2++;
 		}
 	}
@@ -311,20 +334,24 @@ Block moveblock(char input, Block block)
 	}
 	return block;
 }
+
 void drawnextblock(Block nextblock)
 {
-	
+	scr.textcolor(9 + nextblock.getshape(), 0);
 	for (int i = 0; i < 4; i++)
 	{
 		for (int j = 0; j < 4; j++)
 		{
 			scr.gotoxy(nextblock.getx() +j * 2, nextblock.gety() + i);
+			
 			if (blocks[nextblock.getshape()][0][i][j])
 				std::cout << "□";
 			else
 				std::cout << "  ";
+
 		}
 	}
+	scr.textcolor(WHITE, 0);
 }
 
 void eraseLine()
@@ -335,7 +362,7 @@ void eraseLine()
 		for (int j = 0; j < 10; j++)
 		{
 			
-			if (board[i][j] == 2)
+			if (board[i][j]%7 == 2)
 				count++;
 			if (count == 10)
 			{
@@ -403,8 +430,8 @@ bool control::gamestart()
 					{
 						for (int j = 0; j < 10; j++)
 						{
-							if (board[i][j] == 1)
-								board[i][j] = 2;
+							if (board[i][j]%7 == 1)
+								board[i][j] = 2 + curblock.getshape()*7;
 						}
 					}
 					curblock = nextblock;
@@ -418,13 +445,17 @@ bool control::gamestart()
 		Shadow = curblock;
 		draw();
 		end = clock();
-		if (end - start >= 1000)
+		int speed = 1000 - score / 20;
+		if (speed < 500)
+			speed = 500;
+
+		if (end - start >= speed)
 		{
 			curblock = moveblock(DOWN, curblock);
 			draw();
 			start = end;
 		}
-		if (end - start >= 950)
+		if (end - start >= speed - 50)
 		{
 			if (crashcheck(board))
 			{
@@ -432,8 +463,8 @@ bool control::gamestart()
 				{
 					for (int j = 0; j < 10; j++)
 					{
-						if (board[i][j] == 1)
-							board[i][j] = 2;
+						if (board[i][j]%7 == 1)
+							board[i][j] = 2 + curblock.getshape()*7;
 					}
 				}
 				if (curblock.gety() <= 6)
@@ -451,3 +482,18 @@ bool control::gamestart()
 		}
 	}
 }
+
+
+/*
+남은 작업:
+
+	1. 그림자 만들기
+	2. 아이템,상점 구현
+
+추가적인 작업:
+	
+	1. 클래스 , 함수 정리
+	2. 킵 기능 구현
+	3. 타이틀 화면 보수
+
+*/

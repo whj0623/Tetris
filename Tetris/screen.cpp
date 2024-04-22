@@ -116,13 +116,13 @@ bool screen::gameover()
     gotoxy(x, y++);
     std::cout << "┌───────────────────────────────────┐";
     gotoxy(x, y++);
-    std::cout << "│             게임 오버             │";
+    std::cout << "│            게임 오버              │";
     gotoxy(x, y++);
     std::cout << "│                                   │";
     gotoxy(x, y++);
     std::cout << "│    게임을 다시 시작하시겠습니까?  │";
     gotoxy(x, y++);
-    std::cout << "│     YES                 NO        │";
+    std::cout << "│     YES                   NO      │";
     gotoxy(x, y++);
     std::cout << "└───────────────────────────────────┘";
     int select = 0;
