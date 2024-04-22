@@ -9,9 +9,8 @@
 class control
 {
 public: 
-	void gamestart();
+	bool gamestart();
 	void draw();
-	void gameover();
 
 };
 

@@ -12,7 +12,6 @@ enum input
 };
 int score = 0;
 int board[20][10] = { 0 };
-bool isGameOver = false;
 const bool blocks[7][4][4][4]=
 {
 	{
@@ -354,35 +353,7 @@ void MakeShadow(Block Shadow)
 {
 	
 }
-void control::gameover()
-{
-	int x = 35, y = 15;
-	scr.gotoxy(x,y++);
-	std::cout << "┌───────────────────────────────────┐";
-	scr.gotoxy(x,y++);
-	std::cout << "│             게임 오버             │";
-	scr.gotoxy(x,y++);
-	std::cout << "│                                   │";
-	scr.gotoxy(x, y++);
-	std::cout << "│    게임을 다시 시작하시겠습니까?  │";
-	scr.gotoxy(x, y++);
-	std::cout << "│               (Y/N)               │";
-	
-	scr.gotoxy(x, y++);
-	std::cout << "└───────────────────────────────────┘";
-	while (true)
-	{
-		char input;
-		if (_kbhit())
-		{
-			input = _getch();
-			if (input == 'Y' || input == 'y')
-				gamestart();
-			else if (input == 'N' || input == 'n')
-				return;
-		}
-	}
-}
+
 void Resetgame()
 {
 	score = 0;
@@ -393,7 +364,7 @@ void Resetgame()
 	}
 }
 
-void control::gamestart()
+bool control::gamestart()
 {
 	Resetgame();
 	
@@ -403,7 +374,7 @@ void control::gamestart()
 	clock_t start, end;
 	Block curblock, nextblock,Shadow;
 	nextblock.setcoord(7, 6);
-	curblock.setcoord(36, 5);
+	curblock.setcoord(36, 4);
 	
 
 	char input;
@@ -414,8 +385,7 @@ void control::gamestart()
 		scr.gotoxy(55, 13);
 		std::cout << "   점수 : " << score;
 		addblock(curblock, board);
-		if (isGameOver)
-			gameover();
+		
 		drawnextblock(nextblock);
 		draw();
 		if (_kbhit())
@@ -446,7 +416,6 @@ void control::gamestart()
 			}
 		}
 		Shadow = curblock;
-		//MakeShadow(Shadow);
 		draw();
 		end = clock();
 		if (end - start >= 1000)
@@ -467,14 +436,14 @@ void control::gamestart()
 							board[i][j] = 2;
 					}
 				}
-				if (curblock.gety() == 6)
+				if (curblock.gety() <= 6)
 				{
-					gameover();
-					return;
+					if (screen::gameover())
+						return true;
+					else
+						return false;
 				}
-				
 				curblock = nextblock;
-				
 				nextblock.setshape(rand() % 7);
 				curblock.setcoord(36, 6);
 				eraseLine();
