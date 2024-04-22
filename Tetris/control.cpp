@@ -10,8 +10,9 @@ enum input
 	DOWN = 80,
 	SPACEBAR = 32
 };
-
+int score = 0;
 int board[20][10] = { 0 };
+bool isGameOver = false;
 const bool blocks[7][4][4][4]=
 {
 	{
@@ -173,8 +174,8 @@ const bool blocks[7][4][4][4]=
 	{
 		{
 			{0,0,0,0}
-			,{1,1,1,1}
 			,{0,0,0,0}
+			,{1,1,1,1}
 			,{0,0,0,0}
 		},
 		{
@@ -185,8 +186,8 @@ const bool blocks[7][4][4][4]=
 		},
 		{
 			{0,0,0,0}
-			,{1,1,1,1}
 			,{0,0,0,0}
+			,{1,1,1,1}
 			,{0,0,0,0}
 		},
 		{
@@ -198,6 +199,24 @@ const bool blocks[7][4][4][4]=
 	}
 };
 screen scr;
+
+bool crashcheck(int board[20][10])
+{
+	for (int i = 0; i < 20; i++)
+	{
+		for (int j = 0; j < 10; j++)
+		{
+			if (board[i][j] == 1)
+			{
+				if (i == 19 || (i + 1 <= 19 && board[i + 1][j] == 2))
+					return true;
+			}
+		}
+	}
+	return false;
+}
+
+
 void addblock(Block block, int board[20][10])
 {
 	for (int i = 0; i < 4; ++i)
@@ -217,8 +236,12 @@ void control::draw()
 		for (int j = 0; j < 10; j++)
 		{
 			scr.gotoxy(j * 2 + 32, i + 6);
-			if (board[i][j] == 1 || board[i][j] == 2)
+			if (board[i][j] == 1)
 				std::cout << "□";
+			else if (board[i][j] == 2)
+				std::cout << "■";
+			else if (board[i][j] == 3)
+				std::cout << "▨";
 			else
 				std::cout << "  ";
 		}
@@ -229,14 +252,19 @@ Block moveblock(char input, Block block)
 {
 	int tempboard[20][10] = { 0 };
 	Block tempblock = block;
-	
+	int count2 = 0;
 	for (int i = 0; i < 20; i++)
 	{
 		for (int j = 0; j < 10; j++)
-		if (board[i][j] != 1)
-			tempboard[i][j] = board[i][j];
+		{
+			if (board[i][j] != 1)
+			{
+				tempboard[i][j] = board[i][j];
+				if (board[i][j] == 2)
+					count2++;
+			}
+		}
 	}
-
 	switch (input)
 	{
 	case UP:
@@ -255,17 +283,25 @@ Block moveblock(char input, Block block)
 		tempblock.setcoord(tempblock.getx(), tempblock.gety()+1);
 		addblock(tempblock, tempboard);
 		break;
+	case SPACEBAR:
+		for (int i = 0; i < 20; i++)
+			tempblock = moveblock(DOWN, tempblock);
+		break;
 	}
-	int count = 0;
+
+	int check = 0;
+	int check2 = 0;
 	for (int i = 0; i < 20; i++)
 	{
 		for (int j = 0; j < 10; j++)
 		{
 			if (tempboard[i][j] == 1)
-				count++;
+				check++;
+			else if (tempboard[i][j] == 2)
+				check2++;
 		}
 	}
-	if (count == 4)
+	if (check == 4 && check2 == count2)
 	{
 		for (int i = 0; i < 20; i++)
 		{
@@ -291,46 +327,126 @@ void drawnextblock(Block nextblock)
 		}
 	}
 }
-bool crashcheck()
+
+void eraseLine()
 {
 	for (int i = 0; i < 20; i++)
 	{
+		int count = 0;
 		for (int j = 0; j < 10; j++)
 		{
-			if (board[i][j] == 1)
+			
+			if (board[i][j] == 2)
+				count++;
+			if (count == 10)
 			{
-				if (i + 1 <= 19 && board[i + 1][j] == 2)
-					return true;
+				for (int k = i; k > 0; k--)
+				{
+					for (int l = 0; l < 10; l++)
+						board[k][l] = board[k - 1][l];
+				}
+				score += 100;
 			}
 		}
 	}
-	return false;
+}
+void MakeShadow(Block Shadow)
+{
+	
+}
+void control::gameover()
+{
+	int x = 35, y = 15;
+	scr.gotoxy(x,y++);
+	std::cout << "┌───────────────────────────────────┐";
+	scr.gotoxy(x,y++);
+	std::cout << "│             게임 오버             │";
+	scr.gotoxy(x,y++);
+	std::cout << "│                                   │";
+	scr.gotoxy(x, y++);
+	std::cout << "│    게임을 다시 시작하시겠습니까?  │";
+	scr.gotoxy(x, y++);
+	std::cout << "│               (Y/N)               │";
+	
+	scr.gotoxy(x, y++);
+	std::cout << "└───────────────────────────────────┘";
+	while (true)
+	{
+		char input;
+		if (_kbhit())
+		{
+			input = _getch();
+			if (input == 'Y' || input == 'y')
+				gamestart();
+			else if (input == 'N' || input == 'n')
+				return;
+		}
+	}
+}
+void Resetgame()
+{
+	score = 0;
+	for (int i = 0; i < 20; i++)
+	{
+		for (int j = 0; j < 10; j++)
+			board[i][j] = 0;
+	}
 }
 
 void control::gamestart()
 {
+	Resetgame();
 	
 	scr.gamescreen();
-	clock_t start, end;
-	Block curblock, nextblock;
-	nextblock.setcoord(7, 6);
-	curblock.setcoord(38, 6);
-	addblock(curblock,board);
 	
+	
+	clock_t start, end;
+	Block curblock, nextblock,Shadow;
+	nextblock.setcoord(7, 6);
+	curblock.setcoord(36, 5);
+	
+
 	char input;
 	draw();
 	start = clock();
 	while (true)
 	{
+		scr.gotoxy(55, 13);
+		std::cout << "   점수 : " << score;
+		addblock(curblock, board);
+		if (isGameOver)
+			gameover();
 		drawnextblock(nextblock);
-		
+		draw();
 		if (_kbhit())
 		{
 			input = _getch();
 			if (input == -32)
 				input = _getch();
 			curblock = moveblock(input,curblock);
+			
+			if (input == SPACEBAR)
+			{
+				if (crashcheck(board))
+				{
+					for (int i = 0; i < 20; i++)
+					{
+						for (int j = 0; j < 10; j++)
+						{
+							if (board[i][j] == 1)
+								board[i][j] = 2;
+						}
+					}
+					curblock = nextblock;
+					nextblock.setshape(rand() % 7);
+					curblock.setcoord(36, 6);
+					eraseLine();
+				}
+				continue;
+			}
 		}
+		Shadow = curblock;
+		//MakeShadow(Shadow);
 		draw();
 		end = clock();
 		if (end - start >= 1000)
@@ -339,21 +455,30 @@ void control::gamestart()
 			draw();
 			start = end;
 		}
-		
-		if (!crashcheck || curblock.gety() >=  23)
+		if (end - start >= 950)
 		{
-			for (int i = 0; i < 20; i++)
+			if (crashcheck(board))
 			{
-				for (int j = 0; j < 10; j++)
+				for (int i = 0; i < 20; i++)
 				{
-					if (board[i][j] == 1)
-						board[i][j] = 2;
+					for (int j = 0; j < 10; j++)
+					{
+						if (board[i][j] == 1)
+							board[i][j] = 2;
+					}
 				}
+				if (curblock.gety() == 6)
+				{
+					gameover();
+					return;
+				}
+				
+				curblock = nextblock;
+				
+				nextblock.setshape(rand() % 7);
+				curblock.setcoord(36, 6);
+				eraseLine();
 			}
-			curblock = nextblock;
-			nextblock.setshape(rand() % 7);
-			curblock.setcoord(38, 6);
 		}
-		
 	}
 }

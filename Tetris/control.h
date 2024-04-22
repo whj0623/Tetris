@@ -8,10 +8,10 @@
 
 class control
 {
-private:
-	int score = 0;
 public: 
 	void gamestart();
 	void draw();
+	void gameover();
+
 };
 

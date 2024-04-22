@@ -140,13 +140,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Block.h" />
-    <ClInclude Include="Board.h" />
     <ClInclude Include="control.h" />
     <ClInclude Include="screen.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Block.cpp" />
-    <ClCompile Include="Board.cpp" />
     <ClCompile Include="control.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="screen.cpp" />

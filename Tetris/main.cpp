@@ -9,8 +9,10 @@ int main()
 	control control;
 	while (true)
 	{
-		if (a.titlescreen() == 0)
+		int choice = a.titlescreen();
+		if (choice == 0)
 			control.gamestart();
+		//else if (choice == 1)
 		else
 			break;
 	}
