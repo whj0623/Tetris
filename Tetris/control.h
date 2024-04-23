@@ -6,11 +6,13 @@
 #include <conio.h>
 #include <iostream>
 
+
+
 class control
 {
 public: 
-	bool gamestart();
+	bool gameStart();
 	void draw();
-
+	
 };
 

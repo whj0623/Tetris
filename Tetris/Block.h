@@ -35,10 +35,6 @@ public :
 	{
 		return shape;
 	}
-	void setturn(short _turn)
-	{
-		turn = _turn;
-	}
 	short getturn()
 	{
 		return turn;

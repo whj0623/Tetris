@@ -19,7 +19,11 @@ enum input
 	DOWN = 80,
 	SPACEBAR = 32
 };
+
 int score = 0;
+int lines = 0;
+int combo = 0;
+extern int money = 0;
 int board[20][10] = { 0 };
 const bool blocks[7][4][4][4]=
 {
@@ -335,27 +339,31 @@ Block moveblock(char input, Block block)
 	return block;
 }
 
-void drawnextblock(Block nextblock)
+void drawnextblock(Block nextblock[])
 {
-	scr.textcolor(9 + nextblock.getshape(), 0);
-	for (int i = 0; i < 4; i++)
+	for (int k = 0; k < 4; k++)
 	{
-		for (int j = 0; j < 4; j++)
+		scr.textcolor(9 + nextblock[k].getshape(), 0);
+		for (int i = 0; i < 4; i++)
 		{
-			scr.gotoxy(nextblock.getx() +j * 2, nextblock.gety() + i);
-			
-			if (blocks[nextblock.getshape()][0][i][j])
-				std::cout << "□";
-			else
-				std::cout << "  ";
+			for (int j = 0; j < 4; j++)
+			{
+				scr.gotoxy(nextblock[k].getx() + j * 2, nextblock[k].gety() + i);
 
+				if (blocks[nextblock[k].getshape()][0][i][j])
+					std::cout << "□";
+				else
+					std::cout << "  ";
+
+			}
 		}
+		scr.textcolor(WHITE, 0);
 	}
-	scr.textcolor(WHITE, 0);
 }
 
 void eraseLine()
 {
+	bool erasecheck = false;
 	for (int i = 0; i < 20; i++)
 	{
 		int count = 0;
@@ -371,19 +379,23 @@ void eraseLine()
 					for (int l = 0; l < 10; l++)
 						board[k][l] = board[k - 1][l];
 				}
-				score += 100;
+				score += 100*(combo+1);
+				erasecheck = true;
+				lines++;
 			}
 		}
 	}
-}
-void MakeShadow(Block Shadow)
-{
-	
+	if (erasecheck)
+		combo++;
+	else
+		combo = 0;
 }
 
 void Resetgame()
 {
 	score = 0;
+	lines = 0;
+	combo = 0;
 	for (int i = 0; i < 20; i++)
 	{
 		for (int j = 0; j < 10; j++)
@@ -391,37 +403,100 @@ void Resetgame()
 	}
 }
 
-bool control::gamestart()
+void MakeShadow(int color)
+{
+	int x[8] = { 0 };
+	int y[8] = { 0 };
+	int k = -1;
+	int l = -1;
+	int count = 4;
+	for (int i = 0; i < 20; i++)
+	{
+		for (int j = 0; j < 10; j++)
+		{
+			if (board[i][j] % 7 == 1)
+			{
+				x[++k] = j;
+				y[++l] = i;
+			}
+			
+		}
+		
+	}
+	while (count == 4)
+	{
+		count = 0;
+		for (int i = 0; i < 4; i++)
+		{
+			if (y[i] + 1 <= 19 && board[y[i] + 1][x[i]] % 7 != 2)
+				count++;
+		}
+		if (count == 4)
+		{
+			for (int j = 0; j < 4; j++)
+				y[j]++;
+		}
+	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		if (board[y[i]][x[i]] % 7 != 1)
+			board[y[i]][x[i]] = color * 7 + 3;
+	}
+}
+void eraseShadow()
+{
+	for (int i = 0; i < 20; i++)
+	{
+		for (int j = 0; j < 10; j++)
+		{
+			if (board[i][j] % 7 == 3)
+				board[i][j] = 0;
+		}
+	}
+}
+
+void Printrecord()
+{
+	scr.gotoxy(55, 13);
+	std::cout << "  점수		: " << score;
+	scr.gotoxy(55, 15);
+	std::cout << "  지운 줄	: " << lines;
+	scr.gotoxy(55, 17);
+	std::cout << "  콤보		: " << combo;
+}
+
+
+bool control::gameStart()
 {
 	Resetgame();
 	
 	scr.gamescreen();
 	
-	
 	clock_t start, end;
-	Block curblock, nextblock,Shadow;
-	nextblock.setcoord(7, 6);
-	curblock.setcoord(36, 4);
-	
-
+	Block curblock,nextblock[4];
+	for (int i = 0; i < 4; i++)
+		nextblock[i].setcoord(7, 6 + i * 4);
+	curblock.setcoord(36, 6);
 	char input;
 	draw();
 	start = clock();
 	while (true)
 	{
-		scr.gotoxy(55, 13);
-		std::cout << "   점수 : " << score;
+		Printrecord();
 		addblock(curblock, board);
-		
+		MakeShadow(curblock.getshape());
 		drawnextblock(nextblock);
 		draw();
+		
 		if (_kbhit())
 		{
+			eraseShadow();
 			input = _getch();
 			if (input == -32)
 				input = _getch();
 			curblock = moveblock(input,curblock);
-			
+			MakeShadow(curblock.getshape());
 			if (input == SPACEBAR)
 			{
 				if (crashcheck(board))
@@ -430,24 +505,33 @@ bool control::gamestart()
 					{
 						for (int j = 0; j < 10; j++)
 						{
-							if (board[i][j]%7 == 1)
-								board[i][j] = 2 + curblock.getshape()*7;
+							if (board[i][j] % 7 == 1)
+								board[i][j] = 2 + curblock.getshape() * 7;
 						}
 					}
-					curblock = nextblock;
-					nextblock.setshape(rand() % 7);
+					
+					curblock = nextblock[0];
+					for (int i = 0; i < 4; i++)
+					{
+						if (i != 3)
+							nextblock[i] = nextblock[i + 1];
+						else
+							nextblock[3].setshape(rand() % 7);
+						nextblock[i].setcoord(7, 6 + i * 4);
+					}
+						
 					curblock.setcoord(36, 6);
 					eraseLine();
 				}
 				continue;
 			}
+
 		}
-		Shadow = curblock;
 		draw();
 		end = clock();
-		int speed = 1000 - score / 20;
-		if (speed < 500)
-			speed = 500;
+		int speed = 1000 - (lines/10)*100;
+		if (speed < 300)
+			speed = 300;
 
 		if (end - start >= speed)
 		{
@@ -474,8 +558,15 @@ bool control::gamestart()
 					else
 						return false;
 				}
-				curblock = nextblock;
-				nextblock.setshape(rand() % 7);
+				curblock = nextblock[0];
+				for (int i = 0; i < 4; i++)
+				{
+					if (i != 3)
+						nextblock[i] = nextblock[i + 1];
+					else
+						nextblock[3].setshape(rand() % 7);
+					nextblock[i].setcoord(7, 6 + i * 4);
+				}
 				curblock.setcoord(36, 6);
 				eraseLine();
 			}
@@ -487,13 +578,11 @@ bool control::gamestart()
 /*
 남은 작업:
 
-	1. 그림자 만들기
-	2. 아이템,상점 구현
+	1. 아이템,상점 구현
 
 추가적인 작업:
 	
 	1. 클래스 , 함수 정리
-	2. 킵 기능 구현
+	2. 홀드 기능 구현
 	3. 타이틀 화면 보수
-
 */

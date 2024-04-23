@@ -178,22 +178,15 @@ void screen::gamescreen()
             std::cout << "¢Æ                     ¢Æ";
 
     }
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < 18; i++)
     {
         gotoxy(5, 5 + i);
-        if (i == 0 || i == 5)
+        if (i == 0)
             std::cout << "¢Æ¢Æ¢Æ NEXT¢Æ¢Æ¢Æ";
+        else if (i == 17)
+            std::cout << "¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ";
         else
             std::cout << "¢Æ         ¢Æ";
-    }
-
-    for (int i = 0; i < 6; i++)
-    {
-        gotoxy(5, 13 + i);
-        if (i == 0 || i == 5)
-            std::cout << "¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ ITEMS¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ";
-        else
-            std::cout << "¢Æ                ¢Æ";
     }
     
     gotoxy(55, 4);

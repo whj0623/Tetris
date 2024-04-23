@@ -1,6 +1,8 @@
 #include "control.h"
 #include "screen.h"
 
+
+
 int main()
 {
 	srand(time(NULL));
@@ -12,11 +14,12 @@ int main()
 		system("mode con cols=130 lines=40");
 		int choice = a.titlescreen();
 		bool continue_game;
+		
 		if (choice == 0)
 		{
-			continue_game = control.gamestart();
+			continue_game = control.gameStart();
 			while (continue_game)
-				continue_game = control.gamestart();
+				continue_game = control.gameStart();
 		}
 		else
 			break;
