@@ -1,25 +1,23 @@
+#pragma once
 #include "control.h"
 #include "screen.h"
 
-
+bool continue_game;
+int choice;
 
 int main()
 {
+	
 	srand(time(NULL));
-	system("mode con cols=130 lines=40");
-	screen a;
-	control control;
 	while (true)
 	{
-		system("mode con cols=130 lines=40");
-		int choice = a.titlescreen();
-		bool continue_game;
-		
+		system("mode con cols=120 lines=50");
+		screen::titlescreen();
 		if (choice == 0)
 		{
-			continue_game = control.gameStart();
+			control::gameStart();
 			while (continue_game)
-				continue_game = control.gameStart();
+				control::gameStart();
 		}
 		else
 			break;

@@ -7,8 +7,8 @@ class Block
 private:
 	short turn = 0;
 	short shape = 0;
-	short x;
-	short y;
+	short x = 0;
+	short y = 0;
 	
 public :
 	Block()

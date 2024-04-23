@@ -19,11 +19,11 @@ enum input
 	DOWN = 80,
 	SPACEBAR = 32
 };
-
+int gold = 0;
+int earn_gold = 0;
 int score = 0;
 int lines = 0;
 int combo = 0;
-extern int money = 0;
 int board[20][10] = { 0 };
 const bool blocks[7][4][4][4]=
 {
@@ -210,9 +210,8 @@ const bool blocks[7][4][4][4]=
 		}
 	}
 };
-screen scr;
 
-bool crashcheck(int board[20][10])
+bool control::crashcheck(int board[20][10])
 {
 	for (int i = 0; i < 20; i++)
 	{
@@ -229,7 +228,7 @@ bool crashcheck(int board[20][10])
 }
 
 
-void addblock(Block block, int board[20][10])
+void control::addblock(Block block, int board[20][10])
 {
 	for (int i = 0; i < 4; ++i)
 	{
@@ -241,9 +240,9 @@ void addblock(Block block, int board[20][10])
 		}
 	}
 }
-void drawblock(int a)
+void control::drawblock(int a)
 {
-	scr.textcolor(9 + a/7, 0);
+	screen::textcolor(9 + a/7, 0);
 	switch (a%7)
 	{
 	case 1:
@@ -259,7 +258,7 @@ void drawblock(int a)
 		std::cout << "  ";
 		break;
 	}
-	scr.textcolor(WHITE, 0);
+	screen::textcolor(WHITE, 0);
 }
 
 void control::draw()
@@ -268,13 +267,13 @@ void control::draw()
 	{
 		for (int j = 0; j < 10; j++)
 		{
-			scr.gotoxy(j * 2 + 32, i + 6);
+			screen::gotoxy(j * 2 + 32, i + 6);
 			drawblock(board[i][j]);
 		}
 	}
 }
 
-Block moveblock(char input, Block block)
+Block control::moveblock(char input, Block block)
 {
 	int tempboard[20][10] = { 0 };
 	Block tempblock = block;
@@ -339,16 +338,16 @@ Block moveblock(char input, Block block)
 	return block;
 }
 
-void drawnextblock(Block nextblock[])
+void control::drawnextblock(Block nextblock[])
 {
 	for (int k = 0; k < 4; k++)
 	{
-		scr.textcolor(9 + nextblock[k].getshape(), 0);
+		screen::textcolor(9 + nextblock[k].getshape(), 0);
 		for (int i = 0; i < 4; i++)
 		{
 			for (int j = 0; j < 4; j++)
 			{
-				scr.gotoxy(nextblock[k].getx() + j * 2, nextblock[k].gety() + i);
+				screen::gotoxy(nextblock[k].getx() + j * 2, nextblock[k].gety() + i);
 
 				if (blocks[nextblock[k].getshape()][0][i][j])
 					std::cout << "□";
@@ -357,11 +356,11 @@ void drawnextblock(Block nextblock[])
 
 			}
 		}
-		scr.textcolor(WHITE, 0);
+		screen::textcolor(WHITE, 0);
 	}
 }
 
-void eraseLine()
+void control::eraseLine()
 {
 	bool erasecheck = false;
 	for (int i = 0; i < 20; i++)
@@ -391,11 +390,12 @@ void eraseLine()
 		combo = 0;
 }
 
-void Resetgame()
+void control::Resetgame()
 {
 	score = 0;
 	lines = 0;
 	combo = 0;
+	earn_gold = 0;
 	for (int i = 0; i < 20; i++)
 	{
 		for (int j = 0; j < 10; j++)
@@ -403,7 +403,7 @@ void Resetgame()
 	}
 }
 
-void MakeShadow(int color)
+void control::MakeShadow(int color)
 {
 	int x[8] = { 0 };
 	int y[8] = { 0 };
@@ -444,7 +444,7 @@ void MakeShadow(int color)
 			board[y[i]][x[i]] = color * 7 + 3;
 	}
 }
-void eraseShadow()
+void control::eraseShadow()
 {
 	for (int i = 0; i < 20; i++)
 	{
@@ -456,23 +456,20 @@ void eraseShadow()
 	}
 }
 
-void Printrecord()
+void control::PrintScore()
 {
-	scr.gotoxy(55, 13);
+	screen::gotoxy(55, 13);
 	std::cout << "  점수		: " << score;
-	scr.gotoxy(55, 15);
+	screen::gotoxy(55, 15);
 	std::cout << "  지운 줄	: " << lines;
-	scr.gotoxy(55, 17);
+	screen::gotoxy(55, 17);
 	std::cout << "  콤보		: " << combo;
 }
 
-
-bool control::gameStart()
+void control::gameStart()
 {
 	Resetgame();
-	
-	scr.gamescreen();
-	
+	screen::gamescreen();
 	clock_t start, end;
 	Block curblock,nextblock[4];
 	for (int i = 0; i < 4; i++)
@@ -483,12 +480,12 @@ bool control::gameStart()
 	start = clock();
 	while (true)
 	{
-		Printrecord();
+		PrintScore();
 		addblock(curblock, board);
 		MakeShadow(curblock.getshape());
 		drawnextblock(nextblock);
 		draw();
-		
+
 		if (_kbhit())
 		{
 			eraseShadow();
@@ -509,7 +506,6 @@ bool control::gameStart()
 								board[i][j] = 2 + curblock.getshape() * 7;
 						}
 					}
-					
 					curblock = nextblock[0];
 					for (int i = 0; i < 4; i++)
 					{
@@ -525,14 +521,12 @@ bool control::gameStart()
 				}
 				continue;
 			}
-
 		}
 		draw();
 		end = clock();
 		int speed = 1000 - (lines/10)*100;
 		if (speed < 300)
 			speed = 300;
-
 		if (end - start >= speed)
 		{
 			curblock = moveblock(DOWN, curblock);
@@ -553,10 +547,10 @@ bool control::gameStart()
 				}
 				if (curblock.gety() <= 6)
 				{
-					if (screen::gameover())
-						return true;
-					else
-						return false;
+					earn_gold += score / 100;
+					gold += earn_gold;
+					screen::gameover();
+					return;
 				}
 				curblock = nextblock[0];
 				for (int i = 0; i < 4; i++)
@@ -582,7 +576,7 @@ bool control::gameStart()
 
 추가적인 작업:
 	
-	1. 클래스 , 함수 정리
 	2. 홀드 기능 구현
 	3. 타이틀 화면 보수
+	
 */

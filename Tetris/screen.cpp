@@ -1,15 +1,11 @@
 #include "screen.h"
-#include <Windows.h>
-#include <iostream>
-#include <conio.h>
-#include "control.h"
+
+
 
 enum direction
 {
     LEFT = 75,
-    RIGHT = 77,
-    UP = 72,
-    DOWN = 80,
+    RIGHT = 77
 };
 
 
@@ -23,40 +19,60 @@ void screen::textcolor(int font, int background)
 {
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), font + background * 16);
 }
-void drawtitle()
+void screen::drawtitle()
 {
-    int title_x =  20, title_y =  10;
-    screen::gotoxy(title_x, title_y++);
-    std::cout << "  "; screen::textcolor(0, 12 );std::cout << "          "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0, 9);std::cout << "           "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0,  14 );std::cout << "          "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0, 10);std::cout << "           "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0,   11);std::cout << "    "; screen::textcolor(0,  0);std::cout << "  "; screen::textcolor(0, 13);std::cout << "               "; screen::textcolor(0,  0);std::cout << "          ";
-    screen::gotoxy(title_x, title_y++);
-    std::cout << "  "; screen::textcolor(0, 12 );std::cout << "          "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0, 9 );std::cout << "           "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0,  14 );std::cout << "          "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0, 10);std::cout << "             "; screen::textcolor(0,  0);std::cout << "  "; screen::textcolor(0,   11);std::cout << "    "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0,  13 );std::cout << "               "; screen::textcolor(0,  0);std::cout << "          ";
-    screen::gotoxy(title_x, title_y++);
-    std::cout << "  "; screen::textcolor(0, 12 );std::cout << "          "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0, 9);std::cout << "           "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0, 14  );std::cout << "          "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0,  10);std::cout << "              "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0,  11 );std::cout << "    "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0, 13  );std::cout << "              "; screen::textcolor(0,  0);std::cout << "           ";
-    screen::gotoxy(title_x, title_y++);
-    std::cout << "     "; screen::textcolor(0, 12 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0, 9);std::cout << "    "; screen::textcolor(0,  0);std::cout << "           "; screen::textcolor(0, 14  );std::cout << "    "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0,  10);std::cout << "    "; screen::textcolor(0,  0);std::cout << "   "; screen::textcolor(0,  10);std::cout << "       "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0,  11 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "  "; screen::textcolor(0, 13  );std::cout << "       "; screen::textcolor(0,  0);std::cout << "                  ";
-    screen::gotoxy(title_x, title_y++);
-    std::cout << "     "; screen::textcolor(0, 12 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0, 9);std::cout << "         "; screen::textcolor(0,  0);std::cout << "      "; screen::textcolor(0,  14 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0,  10);std::cout << "    "; screen::textcolor(0,  0);std::cout << "  "; screen::textcolor(0,  10);std::cout << "       "; screen::textcolor(0,  0);std::cout << "  "; screen::textcolor(0, 11  );std::cout << "    "; screen::textcolor(0,  0);std::cout << "   "; screen::textcolor(0,13   );std::cout << "       "; screen::textcolor(0,  0);std::cout << "                 ";
-    screen::gotoxy(title_x, title_y++);
-    std::cout << "     "; screen::textcolor(0, 12 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0, 9);std::cout << "        "; screen::textcolor(0,  0);std::cout << "       "; screen::textcolor(0,  14 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0,  10);std::cout << "    "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0,  10);std::cout << "       "; screen::textcolor(0,  0);std::cout << "   "; screen::textcolor(0,  11 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0,  13 );std::cout << "       "; screen::textcolor(0,  0);std::cout << "                ";
-    screen::gotoxy(title_x, title_y++);
-    std::cout << "     "; screen::textcolor(0, 12 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0, 9);std::cout << "       "; screen::textcolor(0,  0);std::cout << "        "; screen::textcolor(0,  14 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0,  10);std::cout << "    "; screen::textcolor(0,  0);std::cout << "  "; screen::textcolor(0,  10);std::cout << "       "; screen::textcolor(0,  0);std::cout << "  "; screen::textcolor(0, 11  );std::cout << "    "; screen::textcolor(0,  0);std::cout << "     "; screen::textcolor(0,  13 );std::cout << "       "; screen::textcolor(0,  0);std::cout << "                ";
-    screen::gotoxy(title_x, title_y++);
-    std::cout << "     "; screen::textcolor(0, 12 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0, 9);std::cout << "    "; screen::textcolor(0,  0);std::cout << "           "; screen::textcolor(0,  14 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0,  10);std::cout << "    "; screen::textcolor(0,  0);std::cout << "   "; screen::textcolor(0,  10);std::cout << "       "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0,  11 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "      "; screen::textcolor(0,  13 );std::cout << "       "; screen::textcolor(0,  0);std::cout << "               ";
-    screen::gotoxy(title_x, title_y++);
-    std::cout << "     "; screen::textcolor(0, 12 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0, 9);std::cout << "    "; screen::textcolor(0,  0);std::cout << "           "; screen::textcolor(0, 14  );std::cout << "    "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0,  10);std::cout << "    "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0, 10);std::cout << "      "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0,  11 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "       "; screen::textcolor(0,  13 );std::cout << "       "; screen::textcolor(0,  0);std::cout << "            ";
-    screen::gotoxy(title_x, title_y++);
-    std::cout << "     "; screen::textcolor(0, 12 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0, 9);std::cout << "            "; screen::textcolor(0,  0);std::cout << "   "; screen::textcolor(0,  14 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0,  10);std::cout << "    "; screen::textcolor(0,  0);std::cout << "     "; screen::textcolor(0, 10);std::cout << "     "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0,  11 );std::cout << "    "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0,  13 );std::cout << "              "; screen::textcolor(0,  0);std::cout << "          ";
-    screen::gotoxy(title_x, title_y++);
-    std::cout << "     "; screen::textcolor(0, 12 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "     "; screen::textcolor(0, 9);std::cout << "            "; screen::textcolor(0,  0);std::cout << "  "; screen::textcolor(0,  14 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0,  10);std::cout << "    "; screen::textcolor(0,  0);std::cout << "      "; screen::textcolor(0,  10);std::cout << "    "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0, 11  );std::cout << "    "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0,  13 );std::cout << "               "; screen::textcolor(0,  0);std::cout << "         ";
-    screen::gotoxy(title_x, title_y++);
-    std::cout << "     "; screen::textcolor(0, 12 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "      "; screen::textcolor(0, 9);std::cout << "            "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0,  14 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0,  10);std::cout << "    "; screen::textcolor(0,  0);std::cout << "       "; screen::textcolor(0,  10);std::cout << "   "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0, 11  );std::cout << "    "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0,  13 );std::cout << "              "; screen::textcolor(0,  0);std::cout << "      ";
-    screen::gotoxy(title_x, title_y++);
-    screen::gotoxy(10,  25);
+    gotoxy(18, 3);
+    screen::textcolor(1, 0);
+    std::cout << "■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■";
+    for (int i = 0; i < 14; i++)
+    {
+        gotoxy(18, i + 4);
+        std::cout << "■                                                                          ■";
+    }
+    gotoxy(18, 18);
+    std::cout << "■■■■■■■■■■■■■                          ■■■■■■■■■■■■■";
+    for (int i = 0; i < 14; i++)
+    {
+        gotoxy(42, i + 19);
+        std::cout << "■                          ■";
+        
+    }
+    gotoxy(42, 33);
+    std::cout << "■■■■■■■■■■■■■■■";
+
+    int title_x =  20, title_y =  5;
+    gotoxy(title_x, title_y++);
+    std::cout << "  "; screen::textcolor(0, 12 );std::cout << "          "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0, 9);std::cout << "           "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0,  14 );std::cout << "          "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0, 10);std::cout << "           "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0,   11);std::cout << "    "; screen::textcolor(0,  0);std::cout << "  "; screen::textcolor(0, 13);std::cout << "               "; screen::textcolor(0,  0);
+    gotoxy(title_x, title_y++);
+    std::cout << "  "; screen::textcolor(0, 12 );std::cout << "          "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0, 9 );std::cout << "           "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0,  14 );std::cout << "          "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0, 10);std::cout << "             "; screen::textcolor(0,  0);std::cout << "  "; screen::textcolor(0,   11);std::cout << "    "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0,  13 );std::cout << "               "; screen::textcolor(0,  0);
+    gotoxy(title_x, title_y++);
+    std::cout << "  "; screen::textcolor(0, 12 );std::cout << "          "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0, 9);std::cout << "           "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0, 14  );std::cout << "          "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0,  10);std::cout << "              "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0,  11 );std::cout << "    "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0, 13  );std::cout << "              "; screen::textcolor(0,  0);
+    gotoxy(title_x, title_y++);
+    std::cout << "     "; screen::textcolor(0, 12 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0, 9);std::cout << "    "; screen::textcolor(0,  0);std::cout << "           "; screen::textcolor(0, 14  );std::cout << "    "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0,  10);std::cout << "    "; screen::textcolor(0,  0);std::cout << "   "; screen::textcolor(0,  10);std::cout << "       "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0,  11 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "  "; screen::textcolor(0, 13  );std::cout << "       "; screen::textcolor(0,  0);
+    gotoxy(title_x, title_y++);
+    std::cout << "     "; screen::textcolor(0, 12 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0, 9);std::cout << "         "; screen::textcolor(0,  0);std::cout << "      "; screen::textcolor(0,  14 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0,  10);std::cout << "    "; screen::textcolor(0,  0);std::cout << "  "; screen::textcolor(0,  10);std::cout << "       "; screen::textcolor(0,  0);std::cout << "  "; screen::textcolor(0, 11  );std::cout << "    "; screen::textcolor(0,  0);std::cout << "   "; screen::textcolor(0,13   );std::cout << "       "; screen::textcolor(0,  0);
+    gotoxy(title_x, title_y++);
+    std::cout << "     "; screen::textcolor(0, 12 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0, 9);std::cout << "        "; screen::textcolor(0,  0);std::cout << "       "; screen::textcolor(0,  14 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0,  10);std::cout << "    "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0,  10);std::cout << "       "; screen::textcolor(0,  0);std::cout << "   "; screen::textcolor(0,  11 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0,  13 );std::cout << "       "; screen::textcolor(0,  0);
+    gotoxy(title_x, title_y++);
+    std::cout << "     "; screen::textcolor(0, 12 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0, 9);std::cout << "       "; screen::textcolor(0,  0);std::cout << "        "; screen::textcolor(0,  14 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0,  10);std::cout << "    "; screen::textcolor(0,  0);std::cout << "  "; screen::textcolor(0,  10);std::cout << "       "; screen::textcolor(0,  0);std::cout << "  "; screen::textcolor(0, 11  );std::cout << "    "; screen::textcolor(0,  0);std::cout << "     "; screen::textcolor(0,  13 );std::cout << "       "; screen::textcolor(0,  0);
+    gotoxy(title_x, title_y++);
+    std::cout << "     "; screen::textcolor(0, 12 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0, 9);std::cout << "    "; screen::textcolor(0,  0);std::cout << "           "; screen::textcolor(0,  14 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0,  10);std::cout << "    "; screen::textcolor(0,  0);std::cout << "   "; screen::textcolor(0,  10);std::cout << "       "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0,  11 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "      "; screen::textcolor(0,  13 );std::cout << "       "; screen::textcolor(0,  0);
+    gotoxy(title_x, title_y++);
+    std::cout << "     "; screen::textcolor(0, 12 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0, 9);std::cout << "    "; screen::textcolor(0,  0);std::cout << "           "; screen::textcolor(0, 14  );std::cout << "    "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0,  10);std::cout << "    "; screen::textcolor(0,  0);std::cout << "    "; screen::textcolor(0, 10);std::cout << "      "; screen::textcolor(0,  0);std::cout << " "; screen::textcolor(0,  11 );std::cout << "    "; screen::textcolor(0,  0);std::cout << "       "; screen::textcolor(0,  13 );std::cout << "       "; screen::textcolor(0,  0);
+    gotoxy(title_x, title_y++);
+    std::cout << "     "; screen::textcolor(0, 12); std::cout << "    "; screen::textcolor(0, 0); std::cout << "    "; screen::textcolor(0, 9); std::cout << "            "; screen::textcolor(0, 0); std::cout << "   "; screen::textcolor(0, 14); std::cout << "    "; screen::textcolor(0, 0); std::cout << "    "; screen::textcolor(0, 10); std::cout << "    "; screen::textcolor(0, 0); std::cout << "     "; screen::textcolor(0, 10); std::cout << "     "; screen::textcolor(0, 0); std::cout << " "; screen::textcolor(0, 11); std::cout << "    "; screen::textcolor(0, 0); std::cout << " "; screen::textcolor(0, 13); std::cout << "              "; screen::textcolor(0, 0);
+    gotoxy(title_x, title_y++);
+    std::cout << "     "; screen::textcolor(0, 12); std::cout << "    "; screen::textcolor(0, 0); std::cout << "     "; screen::textcolor(0, 9); std::cout << "            "; screen::textcolor(0, 0); std::cout << "  "; screen::textcolor(0, 14); std::cout << "    "; screen::textcolor(0, 0); std::cout << "    "; screen::textcolor(0, 10); std::cout << "    "; screen::textcolor(0, 0); std::cout << "      "; screen::textcolor(0, 10); std::cout << "    "; screen::textcolor(0, 0); std::cout << " "; screen::textcolor(0, 11); std::cout << "    "; screen::textcolor(0, 0); std::cout << " "; screen::textcolor(0, 13); std::cout << "               "; screen::textcolor(0, 0);
+    gotoxy(title_x, title_y++);
+    std::cout << "     "; screen::textcolor(0, 12); std::cout << "    "; screen::textcolor(0, 0); std::cout << "      "; screen::textcolor(0, 9); std::cout << "            "; screen::textcolor(0, 0); std::cout << " "; screen::textcolor(0, 14); std::cout << "    "; screen::textcolor(0, 0); std::cout << "    "; screen::textcolor(0, 10); std::cout << "    "; screen::textcolor(0, 0); std::cout << "       "; screen::textcolor(0, 10); std::cout << "   "; screen::textcolor(0, 0); std::cout << " "; screen::textcolor(0, 11); std::cout << "    "; screen::textcolor(0, 0); std::cout << " "; screen::textcolor(0, 13); std::cout << "              "; screen::textcolor(0, 0);
+    
+    
+    gotoxy(10,38);
     screen::textcolor(15, 0);
     std::cout << "   게임시작                                상점                                   게임 종료";
 }
 
-int screen::titlescreen()
+void screen::titlescreen()
 {
     system("cls");
     HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -74,7 +90,7 @@ int screen::titlescreen()
             input = _getch();
             if (input == -32)
             {
-                gotoxy(10 + select * 40, 25);
+                gotoxy(10 + select * 40, 38);
                 std::cout << "  ";
                 input = _getch();
                 switch (input)
@@ -82,49 +98,43 @@ int screen::titlescreen()
                 case LEFT:
                     if (select != 0)
                         select--;
-                    
-                    
                     break;
                 case RIGHT:
                     if (select != 2)
                         select++;
                     break;
                 }
-                gotoxy(10 + select * 40, 25);
+                gotoxy(10 + select * 40, 38);
                 std::cout << "▶";
                 
             }
             else if (input == 32)
             {
-                switch (select)
-                {
-                case 0:
-                    return 0;
-                case 1:
-                    break;
-                case 2:
-                    return -1;
-                }
+                choice = select;
+                return;
             }
         }
     }
 }
 
-bool screen::gameover()
+void screen::gameover()
 {
     int x = 35, y = 15;
     gotoxy(x, y++);
-    std::cout << "┌───────────────────────────────────┐";
+    std::cout << "┌────────────────────────────────────┐";
     gotoxy(x, y++);
-    std::cout << "│            게임 오버              │";
+    std::cout << "│            게임 오버               │";
     gotoxy(x, y++);
-    std::cout << "│                                   │";
+    std::cout << "│                                    │";
     gotoxy(x, y++);
-    std::cout << "│    게임을 다시 시작하시겠습니까?  │";
+    std::cout << "│  획득한 골드 : " << earn_gold <<"G\t소지금 : "<< gold<< "G\t│";
     gotoxy(x, y++);
-    std::cout << "│     YES                   NO      │";
+    std::cout << "│   게임을 다시 시작하시겠습니까?    │";
     gotoxy(x, y++);
-    std::cout << "└───────────────────────────────────┘";
+    std::cout << "│        YES                 NO      │";
+    gotoxy(x, y++);
+    std::cout << "└────────────────────────────────────┘";
+  
     int select = 0;
     while (true)
     {
@@ -136,7 +146,7 @@ bool screen::gameover()
             if (input == -32)
             {
                 input = _getch();
-                gotoxy(37 + select * 20, 19);
+                gotoxy(37 + select * 20, 20);
                 std::cout << "  ";
                 switch (input)
                 {
@@ -147,18 +157,16 @@ bool screen::gameover()
                     select = 1;
                     break;
                 }
-                gotoxy(37 + select * 20, 19);
+                gotoxy(37 + select * 20, 20);
                 std::cout << "▶";
             }          
             else if (input == 32)
             {
-                switch (select)
-                {
-                case 0:
-                    return true;
-                case 1:
-                    return false;
-                }
+                if (select == 0)
+                    continue_game = true;
+                else
+                    continue_game = false;
+                return;
             }
            
         }
