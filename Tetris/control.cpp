@@ -17,10 +17,14 @@ enum input
 	LEFT = 75,
 	RIGHT = 77,
 	DOWN = 80,
-	SPACEBAR = 32
+	SPACEBAR = 32,
+	ESC = 27
 };
 int gold = 0;
 int earn_gold = 0;
+int inventory[4] = { 0 };
+bool continue_game = false;
+int choice = 0;
 int score = 0;
 int lines = 0;
 int combo = 0;
@@ -242,7 +246,7 @@ void control::addblock(Block block, int board[20][10])
 }
 void control::drawblock(int a)
 {
-	screen::textcolor(9 + a/7, 0);
+	screen::textColor(9 + a/7, 0);
 	switch (a%7)
 	{
 	case 1:
@@ -258,7 +262,7 @@ void control::drawblock(int a)
 		std::cout << "  ";
 		break;
 	}
-	screen::textcolor(WHITE, 0);
+	screen::textColor(WHITE, 0);
 }
 
 void control::draw()
@@ -342,7 +346,7 @@ void control::drawnextblock(Block nextblock[])
 {
 	for (int k = 0; k < 4; k++)
 	{
-		screen::textcolor(9 + nextblock[k].getshape(), 0);
+		screen::textColor(9 + nextblock[k].getshape(), 0);
 		for (int i = 0; i < 4; i++)
 		{
 			for (int j = 0; j < 4; j++)
@@ -356,7 +360,7 @@ void control::drawnextblock(Block nextblock[])
 
 			}
 		}
-		screen::textcolor(WHITE, 0);
+		screen::textColor(WHITE, 0);
 	}
 }
 
@@ -469,7 +473,7 @@ void control::PrintScore()
 void control::gameStart()
 {
 	Resetgame();
-	screen::gamescreen();
+	screen::gameScreen();
 	clock_t start, end;
 	Block curblock,nextblock[4];
 	for (int i = 0; i < 4; i++)
@@ -521,6 +525,25 @@ void control::gameStart()
 				}
 				continue;
 			}
+			else if (input == ESC)
+			{
+				int pause_choice = screen::gamePause();
+				if (pause_choice == 0)
+				{
+					screen::gameScreen();
+					continue;
+				}
+				else if (pause_choice == 1)
+				{
+					continue_game = true;
+					break;
+				}
+				else
+				{
+					continue_game = false;
+					break;
+				}
+			}
 		}
 		draw();
 		end = clock();
@@ -549,7 +572,7 @@ void control::gameStart()
 				{
 					earn_gold += score / 100;
 					gold += earn_gold;
-					screen::gameover();
+					screen::gameOver();
 					return;
 				}
 				curblock = nextblock[0];

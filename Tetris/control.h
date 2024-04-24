@@ -1,18 +1,20 @@
 #pragma once
 #include "screen.h"
 #include "Block.h"
+#include "shop.h"
 #include <time.h>
 #include <conio.h>
 #include <iostream>
 
-#ifndef GOLD_H
-#define GOLD_H
+#ifndef PLAYER_H
+#define PLAYER_H
 
 extern int gold;
 extern int earn_gold;
 extern int choice;
 extern bool continue_game;
-
+extern int inventory[4];
+extern int itemPrise[4];
 
 #endif
 

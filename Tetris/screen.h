@@ -6,14 +6,15 @@
 
 
 class screen
-
 {
 public:
-    static void gameover();
-    static void titlescreen();
-    static void gamescreen();
+    static void gameOver();
+    static void titleScreen();
+    static void gameScreen();
+    static void shopScreen();
     static void gotoxy(short x, short y);
-    static void textcolor(int font, int background);
-    static void drawtitle();
+    static void textColor(int font, int background);
+    static void drawTitle();
+    static int gamePause();
 };
 

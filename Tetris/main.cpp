@@ -1,27 +1,31 @@
 #pragma once
 #include "control.h"
 #include "screen.h"
+#include "shop.h"
 
-bool continue_game;
-int choice;
 
 int main()
 {
-	
 	srand(time(NULL));
 	while (true)
 	{
 		system("mode con cols=120 lines=50");
-		screen::titlescreen();
+		screen::titleScreen();
 		if (choice == 0)
 		{
 			control::gameStart();
 			while (continue_game)
 				control::gameStart();
 		}
-		else
+		else if (choice == 1)
+		{
+			system("cls");
+			screen::shopScreen();
+			shop::interaction();
+			
+		}
+		else 
 			break;
-		//else if (choice == 1)
-		
+			
 	}
 }

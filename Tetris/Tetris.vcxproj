@@ -142,11 +142,13 @@
     <ClInclude Include="Block.h" />
     <ClInclude Include="control.h" />
     <ClInclude Include="screen.h" />
+    <ClInclude Include="shop.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="control.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="screen.cpp" />
+    <ClCompile Include="shop.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
