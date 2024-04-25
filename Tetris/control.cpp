@@ -269,6 +269,11 @@ void control::drawblock(int a)
 		std::cout << "¥ä";
 		return ;
 	}
+	else if (a == 1000)
+	{
+		std::cout << "¥Ä";
+		return;
+	}
 	screen::textColor(9 + a/7, 0);
 	switch (a%7)
 	{
@@ -635,7 +640,7 @@ void control::useItem(int index)
 						if (board[i][item.X] == 0)
 						{
 							board[i][item.X] = board[i - 1][item.X];
-							if (board[i][item.X] == 0)
+							if (board[i][item.X] %7 != 2)
 								i++;
 						}
 					}
