@@ -35,5 +35,6 @@ public:
 	static bool crashcheck(int board[20][10]);
 	static void itemInfo();
 	static void useItem(int index);
+	static void moveItem(char input, COORD* item);
 };
 

@@ -239,7 +239,7 @@ bool control::crashcheck(int board[20][10])
 	{
 		for (int j = 0; j < 10; j++)
 		{
-			if (board[i][j]%7 == 1)
+			if (board[i][j]%7 == 1 || board[i][j] == 999 || board[i][j] == 1000)
 			{
 				if (i == 19 || (i + 1 <= 19 && board[i + 1][j]%7 == 2))
 					return true;
@@ -264,6 +264,11 @@ void control::addblock(Block block, int board[20][10])
 }
 void control::drawblock(int a)
 {
+	if (a == 999)
+	{
+		std::cout << "δ";
+		return ;
+	}
 	screen::textColor(9 + a/7, 0);
 	switch (a%7)
 	{
@@ -276,6 +281,8 @@ void control::drawblock(int a)
 	case 3:
 		if (inventory[3] == 1)
 			std::cout << "▨";
+		else
+			std::cout << "  ";
 		break;
 	default:
 		std::cout << "  ";
@@ -349,7 +356,7 @@ Block control::moveblock(char input, Block block)
 				check2++;
 		}
 	}
-	if ((check == 4 && check2 == count2) || (tempblock.getshape() == 7 && (check == 1 && check2 == count2)))
+	if (check == 4 && check2 == count2)
 	{
 		for (int i = 0; i < 20; i++)
 		{
@@ -537,7 +544,7 @@ std::cout << " "; screen::textColor(0, 8); std::cout << "         "; screen::tex
 
 screen::textColor(15, 0); std::cout << " X " << inventory[1];
 }
-Block curblock, nextblock[4];
+
 
 bool gameOverCheck()
 {
@@ -552,13 +559,140 @@ bool gameOverCheck()
 	return false;
 }
 
+void control::moveItem(char input, COORD * item)
+{
+	
+	if (input == RIGHT)
+	{
+		if (item->X < 9 && board[item->Y][item->X + 1] % 7 != 2)
+			item->X++;
+	}
+	else if (input == LEFT)
+	{
+		if (item->X > 0 && board[item->Y][item->X - 1] % 7 != 2)
+			item->X--;
+	}
+	else if (input == DOWN)
+	{
+		if (item->Y <= 18 && board[item->Y + 1][item->X] % 7 != 2)
+			item->Y++;
+	}
+}
+void control::useItem(int index)
+{
+	for (int i = 0; i < 20; i++)
+	{
+		for (int j = 0; j < 10; j++)
+		{
+			if (board[i][j] % 7 == 1)
+				board[i][j] = 0;
+		}
+	}
+	char input;
+	COORD* p_item;
+	COORD item;
+	p_item = &item;
+	inventory[index - 1]--;
+	item.X = 5, item.Y = 3;
+	
+	clock_t start, end;
+	start = clock();
+	while (true)
+	{
+		if (index == 1)
+			board[item.Y][item.X] = 999;
+		else
+			board[item.Y][item.X] = 1000;
+		draw();
+		if (_kbhit())
+		{
+			input = _getch();
+			board[item.Y][item.X] = 0;
+			if (input == -32)
+			{
+				input = _getch();
+				moveItem(input, p_item);
+			}
+			else if (input == SPACEBAR)
+			{
+				for (int i = 0; i < 20; i++)
+					moveItem(DOWN, p_item);
+				if (index == 1)
+				{
+					for (int i = item.Y - 2; i <= item.Y + 2; i++)
+					{
+						for (int j = item.X - 2; j <= item.X + 2; j++)
+						{
+							if ((i <= 19 && i >= 0) && (j <= 9 && j >= 0))
+								board[i][j] = 0;
+						}
+					}
+				}
+				else
+				{
+					for (int i = 19; i > item.Y; i--)
+					{
+						if (board[i][item.X] == 0)
+						{
+							board[i][item.X] = board[i - 1][item.X];
+							if (board[i][item.X] == 0)
+								i++;
+						}
+					}
+				}
+				return;
+			}
+		}
+		
+		end = clock();
+		draw();
+		if (end - start >= 1000)
+		{
+			board[item.Y][item.X] = 0;
+			moveItem(DOWN, p_item);
+			draw();
+			start = end;
+		}
+		if (end - start >= 900)
+		{
+			if (crashcheck(board))
+			{
+				if (index == 1)
+				{
+					for (int i = item.Y - 2; i <= item.Y + 2; i++)
+					{
+						for (int j = item.X - 2; j <= item.X + 2; j++)
+						{
+							if ((i <= 19 && i >= 0) && (j <= 9 && j >= 0))
+								board[i][j] = 0;
+						}
+					}
+				}
+				else
+				{
+					for (int i = 19; i > item.Y; i--)
+					{
+						if (board[i][item.X] == 0)
+						{
+							board[i][item.X] = board[i - 1][item.X];
+							if (board[i][item.X] == 0)
+								i++;
+						}
+					}
+				}
+				return;
+			}
+		}
+	}
+}
+
 void control::gameStart()
 {
 	Resetgame();
 	screen::gameScreen();
 	itemInfo();
 	clock_t start, end;
-
+	Block curblock, nextblock[4];
 	for (int i = 0; i < 4; i++)
 		nextblock[i].setcoord(7, 6 + i * 4);
 	curblock.setcoord(36, 6);
@@ -625,6 +759,15 @@ void control::gameStart()
 					break;
 				}
 			}
+			else if (input == '1' || input == '2')
+			{
+				//if (inventory[input - '0' - 1] > 0)
+				//{
+					useItem(input - '0');
+					curblock.setcoord(36, 6);
+					continue;
+				//}
+			}
 		}
 		draw();
 		end = clock();
@@ -671,7 +814,6 @@ void control::gameStart()
 		}
 	}
 }
-
 
 /*
 남은 작업:
