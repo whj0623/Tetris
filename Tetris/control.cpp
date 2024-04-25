@@ -31,7 +31,7 @@ int combo = 0;
 int board[20][10] = { 0 };
 bool continue_game = false;
 bool nowUseItem[2] = { false };
-const bool blocks[8][4][4][4]=
+const bool blocks[7][4][4][4]=
 {
 	{
 		{
@@ -213,22 +213,6 @@ const bool blocks[8][4][4][4]=
 			,{0,0,1,0}
 			,{0,0,1,0}
 			,{0,0,1,0}
-		}
-	},
-	{
-		{
-			
-			{1}
-			
-		},
-		{
-			{1}
-		},
-		{
-			{1}
-		},
-		{
-			{1}
 		}
 	}
 };
@@ -596,6 +580,9 @@ void control::useItem(int index)
 	char input;
 	COORD* p_item;
 	COORD item;
+	int pushed[20] = { 0 };
+	int k = -1;
+	
 	p_item = &item;
 	inventory[index - 1]--;
 	item.X = 5, item.Y = 3;
@@ -635,15 +622,15 @@ void control::useItem(int index)
 				}
 				else
 				{
-					for (int i = 19; i > item.Y; i--)
+					for (int i = 19; i >= item.Y; i--)
 					{
-						if (board[i][item.X] == 0)
-						{
-							board[i][item.X] = board[i - 1][item.X];
-							if (board[i][item.X] %7 != 2)
-								i++;
-						}
+						if (board[i][item.X] % 7 == 2)
+							pushed[++k] = board[i][item.X];
 					}
+					for (int i = 19; i >= item.Y; i--)
+						board[i][item.X] = 0;
+					for (int i = 19; i >= item.Y; i--)
+						board[i][item.X] = pushed[19-i];
 				}
 				return;
 			}
@@ -675,15 +662,15 @@ void control::useItem(int index)
 				}
 				else
 				{
-					for (int i = 19; i > item.Y; i--)
+					for (int i = 19; i >= item.Y; i--)
 					{
-						if (board[i][item.X] == 0)
-						{
-							board[i][item.X] = board[i - 1][item.X];
-							if (board[i][item.X] == 0)
-								i++;
-						}
+						if (board[i][item.X] % 7 == 2)
+							pushed[++k] = board[i][item.X];
 					}
+					for (int i = 19; i >= item.Y; i--)
+						board[i][item.X] = 0;
+					for (int i = 19; i >= item.Y + 1; i--)
+						board[i][item.X] = pushed[19 - i];
 				}
 				return;
 			}
