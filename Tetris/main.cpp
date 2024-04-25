@@ -22,7 +22,6 @@ int main()
 			system("cls");
 			screen::shopScreen();
 			shop::interaction();
-			
 		}
 		else 
 			break;

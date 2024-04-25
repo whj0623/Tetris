@@ -252,7 +252,7 @@ void screen::gameScreen()
     gotoxy(55, 9);
     std::cout << "  SPACE BAR  : 夥款梱雖 綰楣 檜翕   ";
     gotoxy(55, 11);
-    std::cout << "  Z : 嬴檜蠱 餌辨 ";
+    std::cout << "  1 : ァ驕 餌辨      2 : 蹺 餌辨";
 
 }
 
@@ -290,6 +290,9 @@ void screen::shopScreen()
     }
     gotoxy(80, y);
     std::cout << "戌式式式式式式式式式式式式式式式式式式式式式式式戎";
+    
     shop::showItem(0, 11, 6);
     shop::showItem(1, 35, 6);
+    shop::showItem(2, 59, 6);
+    shop::showItem(3, 11, 22);
 }

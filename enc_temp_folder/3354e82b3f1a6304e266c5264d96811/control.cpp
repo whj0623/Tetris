@@ -538,7 +538,14 @@ std::cout << " "; screen::textColor(0, 8); std::cout << "         "; screen::tex
 screen::textColor(15, 0); std::cout << " X " << inventory[1];
 }
 Block curblock, nextblock[4];
-
+void control::useItem(int index)
+{
+	nowUseItem[index - 1] = true;
+	Block item;
+	item.setshape(7);
+	item.setcoord(36, 6);
+	curblock = item;
+}
 bool gameOverCheck()
 {
 	for (int i = 1; i < 5; i++)
@@ -584,12 +591,21 @@ void control::gameStart()
 			{
 				if (crashcheck(board))
 				{					
-					for (int i = 0; i < 20; i++)
+					if (nowUseItem[0])
 					{
-						for (int j = 0; j < 10; j++)
+						nowUseItem[0] = false;
+
+					
+					}
+					else
+					{
+						for (int i = 0; i < 20; i++)
 						{
-							if (board[i][j] % 7 == 1)
-								board[i][j] = 2 + curblock.getshape() * 7;
+							for (int j = 0; j < 10; j++)
+							{
+								if (board[i][j] % 7 == 1)
+									board[i][j] = 2 + curblock.getshape() * 7;
+							}
 						}
 					}
 					curblock = nextblock[0];
@@ -625,6 +641,8 @@ void control::gameStart()
 					break;
 				}
 			}
+			else if (input == '1' || input == '2')
+				useItem(input - '0');
 		}
 		draw();
 		end = clock();

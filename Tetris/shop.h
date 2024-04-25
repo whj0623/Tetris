@@ -8,10 +8,12 @@
 class shop
 {
 public:
+	static void interaction();
 	static void buyItem(int index);
 	static void showItem(int index,int x , int y);
 	static void showItemInformation(int index);
-	static void interaction();
 	static void drawSelect(int index);
+	static void needMoreCash();
+	static void alreadyHave();
 };
 

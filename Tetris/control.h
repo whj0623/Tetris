@@ -32,6 +32,8 @@ public:
 	static Block moveblock(char input, Block block);
 	static void drawblock(int a);
 	static void addblock(Block block, int board[20][10]);
-	static bool crashcheck(int board[20][10]); 
+	static bool crashcheck(int board[20][10]);
+	static void itemInfo();
+	static void useItem(int index);
 };
 
