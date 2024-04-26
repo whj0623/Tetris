@@ -807,6 +807,7 @@ void control::gameStart()
 			{
 				if (inventory[input - '0' - 1] > 0)
 				{
+					eraseShadow();
 					useItem(input - '0');
 					curblock.setcoord(36, 6);
 					continue;

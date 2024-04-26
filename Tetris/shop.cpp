@@ -46,6 +46,16 @@ void shop::alreadyHave()
 
 void shop::showItem(int index,int x, int y)
 {
+    int posy = 6;
+    screen::gotoxy(80, posy);
+    std::cout << "┌───────────────────────┐";
+    for (int i = 0; i < 25; i++)
+    {
+        screen::gotoxy(80, posy++);
+        std::cout << "│                       │";
+    }
+    screen::gotoxy(80, posy);
+    std::cout << "└───────────────────────┘";
     switch (index)
 	{
 	case 0:
@@ -227,9 +237,6 @@ void shop::showItemInformation(int index)
         if (inventory[3] == 1)
             std::cout << "(보유중)";
     }
-    
-
-
     screen::gotoxy(83, 29);
     std::cout << "가격 : " << itemPrise[index] << "G";
     screen::gotoxy(83, 30);
@@ -244,7 +251,7 @@ void shop::interaction()
 {
     char input;
     int select = 0;
-    drawSelect(select);
+    drawSelect(select,14);
     showItemInformation(select);
     while (true)
     {
@@ -253,6 +260,7 @@ void shop::interaction()
             input = _getch();
             if (input == -32)
             {
+                drawSelect(select, 0);
                 input = _getch();
                 switch (input)
                 {
@@ -277,7 +285,7 @@ void shop::interaction()
                         select++;
                     break;
                 }
-                drawSelect(select);
+                drawSelect(select,14);
                 showItemInformation(select);
             }
             else if (input == 32)
@@ -290,7 +298,7 @@ void shop::interaction()
                     needMoreCash();
                 Sleep(1000);
                 screen::shopScreen();
-                drawSelect(select);
+                drawSelect(select,14);
                 showItemInformation(select);
             }
             else if (input == 27)
@@ -299,14 +307,13 @@ void shop::interaction()
     }
 }
 
-void shop::drawSelect(int index)
+void shop::drawSelect(int index,int color)
 {
-    screen::shopScreen();
     if (index == 3)
     {
         int x = 7, y = 22;
         screen::gotoxy(x, y);
-        screen::textColor(0, 14); std::cout << "                      ";
+        screen::textColor(0, color); std::cout << "                      ";
         for (int i = 0; i < 13; i++)
         {
             screen::gotoxy(x, ++y);
@@ -321,7 +328,7 @@ void shop::drawSelect(int index)
     {
         int x = 7 + 24 * index, y = 6;
         screen::gotoxy(x, y);
-        screen::textColor(0, 14); std::cout << "                      ";
+        screen::textColor(0, color); std::cout << "                      ";
         for (int i = 0; i < 13; i++)
         {
             screen::gotoxy(x, ++y);

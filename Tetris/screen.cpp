@@ -23,26 +23,26 @@ void screen::textColor(int font, int background)
 }
 void screen::drawTitle()
 {
-    gotoxy(18, 3);
+    gotoxy(20, 3);
     screen::textColor(1, 0);
     std::cout << "■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■";
     for (int i = 0; i < 14; i++)
     {
-        gotoxy(18, i + 4);
+        gotoxy(20, i + 4);
         std::cout << "■                                                                          ■";
     }
-    gotoxy(18, 18);
+    gotoxy(20, 18);
     std::cout << "■■■■■■■■■■■■■                          ■■■■■■■■■■■■■";
     for (int i = 0; i < 14; i++)
     {
-        gotoxy(42, i + 19);
+        gotoxy(44, i + 19);
         std::cout << "■                          ■";
         
     }
-    gotoxy(42, 33);
+    gotoxy(44, 33);
     std::cout << "■■■■■■■■■■■■■■■";
 
-    int title_x =  20, title_y =  5;
+    int title_x =  22, title_y =  5;
     gotoxy(title_x, title_y++);
     std::cout << "  "; screen::textColor(0, 12 );std::cout << "          "; screen::textColor(0,  0);std::cout << " "; screen::textColor(0, 9);std::cout << "           "; screen::textColor(0,  0);std::cout << " "; screen::textColor(0,  14 );std::cout << "          "; screen::textColor(0,  0);std::cout << " "; screen::textColor(0, 10);std::cout << "           "; screen::textColor(0,  0);std::cout << "    "; screen::textColor(0,   11);std::cout << "    "; screen::textColor(0,  0);std::cout << "  "; screen::textColor(0, 13);std::cout << "               "; screen::textColor(0,  0);
     gotoxy(title_x, title_y++);
@@ -78,15 +78,15 @@ int screen::gamePause()
     int select = 0;
     int x = 35, y = 10;
     gotoxy(x, y++);
-    std::cout << "┌─────────────────────────────────────┐";
+    std::cout << " ┌─────────────────────────────────────┐";
     gotoxy(x, y++);
-    std::cout << "│              일시 정지              │";
+    std::cout << " │              일시 정지              │";
     gotoxy(x, y++);
-    std::cout << "│                                     │";
+    std::cout << " │                                     │";
     gotoxy(x, y++);
-    std::cout << "│    게임 재개    새 게임     타이틀로│";
+    std::cout << " │    게임 재개    새 게임     타이틀로│";
     gotoxy(x, y++);
-    std::cout << "└─────────────────────────────────────┘";
+    std::cout << " └─────────────────────────────────────┘";
     while (true)
     {
         if (_kbhit())
@@ -116,6 +116,29 @@ int screen::gamePause()
         }
     }
 }
+void screen::drawSelect(int select, int color)
+{
+    int x = 13 + select * 34, y = 38;
+    
+    gotoxy(x, y);
+    textColor(color, 0);
+    std::cout << "◆◆◆◆◆◆◆◆◆◆◆◆";
+    gotoxy(x, ++y);
+    std::cout << "◆";
+    gotoxy(x + 22, y);
+    std::cout << "◆";
+    gotoxy(x, ++y);
+    std::cout << "◆";
+    gotoxy(x + 22, y);
+    std::cout << "◆";
+    gotoxy(x, ++y);
+    std::cout << "◆";
+    gotoxy(x + 22, y);
+    std::cout << "◆";
+    gotoxy(x, ++y);
+    std::cout << "◆◆◆◆◆◆◆◆◆◆◆◆";
+    textColor(15, 0);
+}
 
 void screen::titleScreen()
 {
@@ -128,9 +151,9 @@ void screen::titleScreen()
     short select = 0;
     short difficulty_select = 0;
     drawTitle();
-    gotoxy(10, 38);
+    gotoxy(20, 40);
     screen::textColor(15, 0);
-    std::cout << "   게임시작                                상점                                   게임 종료";
+    std::cout << "게임 시작                            상점                            게임 종료";
     char input;
     while (true)
     {
@@ -139,8 +162,8 @@ void screen::titleScreen()
             input = _getch();
             if (input == -32)
             {
-                gotoxy(10 + select * 40, 38);
-                std::cout << "  ";
+                
+                drawSelect(select, 0);
                 input = _getch();
                 switch (input)
                 {
@@ -153,26 +176,27 @@ void screen::titleScreen()
                         select++;
                     break;
                 }
-                gotoxy(10 + select * 40, 38);
-                std::cout << "▶";
-                
+                drawSelect(select, 14);
             }
             else if (input == 32)
             {
                 if (select == 0)
                 {
-                    gotoxy(10, 38);
+                    
+                    gotoxy(20, 40);
                     std::cout << " Level " << level << "     ";
+                    drawSelect(select, 14);
+                    
                     while (true)
                     {
                         if (_kbhit())
                         {
-                           
+                            drawSelect(select, 14);
+                            gotoxy(27, 40);
                             input = _getch();
                             if (input == -32)
                             {
-                                gotoxy(10, 38);
-                                std::cout << "              ";
+                                std::cout << "  ";
                                 input = _getch();
                                 switch (input)
                                 {
@@ -185,11 +209,22 @@ void screen::titleScreen()
                                         level--;
                                     break;
                                 }
-                                gotoxy(10, 38);
-                                std::cout << " Level " << level;
+                                gotoxy(27, 40);
+                                std::cout  << level;
+
                             }
                             else if (input == 32)
                                 break;
+                            gotoxy(24, 36);
+                            if (level == 10)
+                                std::cout << "  ";
+                            else
+                                std::cout << "▲";
+                            gotoxy(24, 44);
+                            if (level == 0)
+                                std::cout << "  ";
+                            else
+                                std::cout << "▼";
                         }
                     }
                 }
@@ -202,22 +237,33 @@ void screen::titleScreen()
 
 void screen::gameOver()
 {
-    int x = 35, y = 15;
+    int x = 24, y = 7;
     gotoxy(x, y++);
-    std::cout << "┌────────────────────────────────────┐";
+    std::cout << " ┌──────────────────────────────────────┐";
     gotoxy(x, y++);
-    std::cout << "│            게임 오버               │";
+    std::cout << " │              게임 오버               │";
     gotoxy(x, y++);
-    std::cout << "│                                    │";
+    std::cout << " │                                      │";
     gotoxy(x, y++);
-    std::cout << "│  획득한 골드 : " << earn_gold <<"G\t소지금 : "<< gold<< "G\t│";
+    std::cout << " │  획득한 골드 :   점수 / 100 = "<< 0 << "G\t│";
     gotoxy(x, y++);
-    std::cout << "│   게임을 다시 시작하시겠습니까?    │";
+    std::cout << " │                                      │";
+    gotoxy(x, y);
+    std::cout << " │                                      │";    
     gotoxy(x, y++);
-    std::cout << "│        YES                 NO      │";
+    
+    std::cout << " │          소지금 :     "<<0<<"G\t        │";
     gotoxy(x, y++);
-    std::cout << "└────────────────────────────────────┘";
-  
+    std::cout << " │                                      │";
+    gotoxy(x, y++);
+    std::cout << " │     게임을 다시 시작하시겠습니까?    │";
+    gotoxy(x, y++);
+    std::cout << " │                                      │";
+    gotoxy(x, y++);
+    std::cout << " │        YES                 NO        │";
+    gotoxy(x, y++);
+    std::cout << " └──────────────────────────────────────┘";
+   
     int select = 0;
     while (true)
     {
@@ -229,7 +275,7 @@ void screen::gameOver()
             if (input == -32)
             {
                 input = _getch();
-                gotoxy(37 + select * 20, 20);
+                gotoxy(29 + select * 20, 16);
                 std::cout << "  ";
                 switch (input)
                 {
@@ -240,7 +286,7 @@ void screen::gameOver()
                     select = 1;
                     break;
                 }
-                gotoxy(37 + select * 20, 20);
+                gotoxy(29 + select * 20, 16);
                 std::cout << "▶";
             }          
             else if (input == 32)

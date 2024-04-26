@@ -16,5 +16,6 @@ public:
     static void textColor(int font, int background);
     static void drawTitle();
     static int gamePause();
+    static void drawSelect(int select, int color);
 };
 
