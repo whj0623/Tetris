@@ -245,14 +245,14 @@ void screen::gameOver()
     gotoxy(x, y++);
     std::cout << " ¦¢                                      ¦¢";
     gotoxy(x, y++);
-    std::cout << " ¦¢  È¹µæÇÑ °ñµå :   Á¡¼ö / 100 = "<< 0 << "G\t¦¢";
+    std::cout << " ¦¢  È¹µæÇÑ °ñµå :   Á¡¼ö / 100 = "<< earn_gold << "G\t¦¢";
     gotoxy(x, y++);
     std::cout << " ¦¢                                      ¦¢";
     gotoxy(x, y);
     std::cout << " ¦¢                                      ¦¢";    
     gotoxy(x, y++);
     
-    std::cout << " ¦¢          ¼ÒÁö±Ý :     "<<0<<"G\t        ¦¢";
+    std::cout << " ¦¢          ¼ÒÁö±Ý :     "<<gold<<"G\t        ¦¢";
     gotoxy(x, y++);
     std::cout << " ¦¢                                      ¦¢";
     gotoxy(x, y++);
