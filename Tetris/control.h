@@ -9,6 +9,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+extern int level;
 extern int gold;
 extern int earn_gold;
 extern int choice;
@@ -36,5 +37,6 @@ public:
 	static void itemInfo();
 	static void useItem(int index);
 	static void moveItem(char input, COORD* item);
+	static void drawholdblock(Block holdblock, bool holdIsEmpty);
 };
 

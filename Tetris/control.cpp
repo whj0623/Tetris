@@ -20,7 +20,7 @@ enum input
 	SPACEBAR = 32,
 	ESC = 27
 };
-
+int level = 0;
 int gold = 0;
 int earn_gold = 0;
 int inventory[4] = { 0 };
@@ -379,6 +379,27 @@ void control::drawnextblock(Block nextblock[])
 	}
 }
 
+void control::drawholdblock(Block holdblock, bool holdIsEmpty)
+{
+	if (holdIsEmpty)
+		return;
+	screen::textColor(9 + holdblock.getshape(), 0);
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			screen::gotoxy(holdblock.getx() + j * 2, holdblock.gety() + i);
+
+			if (blocks[holdblock.getshape()][0][i][j])
+				std::cout << "бр";
+			else
+				std::cout << "  ";
+
+		}
+	}
+	screen::textColor(WHITE, 0);
+}
+
 void control::eraseLine()
 {
 	bool erasecheck = false;
@@ -397,9 +418,11 @@ void control::eraseLine()
 					for (int l = 0; l < 10; l++)
 						board[k][l] = board[k - 1][l];
 				}
-				score += 100*(combo+1);
+				score += (100 + level*15)*(combo+1);
 				erasecheck = true;
 				lines++;
+				if (level < lines / 10)
+					level = lines / 10 >= 10 ? 10 : lines / 10;
 			}
 		}
 	}
@@ -537,7 +560,7 @@ screen::textColor(15, 0); std::cout << " X " << inventory[1];
 
 bool gameOverCheck()
 {
-	for (int i = 1; i < 5; i++)
+	for (int i = 1; i < 4; i++)
 	{
 		for (int j = 0; j < 10; j++)
 		{
@@ -622,6 +645,10 @@ void control::useItem(int index)
 				}
 				else
 				{
+					board[item.Y][item.X] = 1000;
+					draw();
+					board[item.Y][item.X] = 0;
+					Sleep(500);
 					for (int i = 19; i >= item.Y; i--)
 					{
 						if (board[i][item.X] % 7 == 2)
@@ -629,8 +656,16 @@ void control::useItem(int index)
 					}
 					for (int i = 19; i >= item.Y; i--)
 						board[i][item.X] = 0;
-					for (int i = 19; i >= item.Y; i--)
-						board[i][item.X] = pushed[19-i];
+					for (int i = 19; i >= item.Y + 1; i--)
+						board[i][item.X] = pushed[19 - i];
+					if (k > -1)
+					{
+						board[18 - k][item.X] = 1000;
+						draw();
+						board[18 - k][item.X] = 0;
+						Sleep(500);
+					}
+					eraseLine();
 				}
 				return;
 			}
@@ -662,6 +697,10 @@ void control::useItem(int index)
 				}
 				else
 				{
+					board[item.Y][item.X] = 1000;
+					draw();
+					board[item.Y][item.X] = 0;
+					Sleep(500);
 					for (int i = 19; i >= item.Y; i--)
 					{
 						if (board[i][item.X] % 7 == 2)
@@ -671,6 +710,14 @@ void control::useItem(int index)
 						board[i][item.X] = 0;
 					for (int i = 19; i >= item.Y + 1; i--)
 						board[i][item.X] = pushed[19 - i];
+					if (k > -1)
+					{
+						board[18 - k][item.X] = 1000;
+						draw();
+						board[18 - k][item.X] = 0;
+						Sleep(500);
+					}
+					eraseLine();
 				}
 				return;
 			}
@@ -684,10 +731,13 @@ void control::gameStart()
 	screen::gameScreen();
 	itemInfo();
 	clock_t start, end;
-	Block curblock, nextblock[4];
+	Block curblock, nextblock[4], holdblock,tempblock;
+	bool holdIsEmpty = true;
+	bool usedHoldTHisTurn = false;
 	for (int i = 0; i < 4; i++)
-		nextblock[i].setcoord(7, 6 + i * 4);
+		nextblock[i].setcoord(6, 6 + i * 4);
 	curblock.setcoord(36, 6);
+	holdblock.setcoord(19, 6);
 	char input;
 	draw();
 	start = clock();
@@ -697,6 +747,7 @@ void control::gameStart()
 		addblock(curblock, board);
 		MakeShadow(curblock.getshape());
 		drawnextblock(nextblock);
+		drawholdblock(holdblock,holdIsEmpty);
 		draw();
 		if (_kbhit())
 		{
@@ -710,6 +761,7 @@ void control::gameStart()
 			{
 				if (crashcheck(board))
 				{					
+					usedHoldTHisTurn = false;
 					for (int i = 0; i < 20; i++)
 					{
 						for (int j = 0; j < 10; j++)
@@ -724,8 +776,8 @@ void control::gameStart()
 						if (i != 3)
 							nextblock[i] = nextblock[i + 1];
 						else
-							nextblock[3].setshape(rand() % 7);
-						nextblock[i].setcoord(7, 6 + i * 4);
+							nextblock[i].setshape(rand() % 7);
+						nextblock[i].setcoord(6, 6 + i * 4);
 					}
 					curblock.setcoord(36, 6);
 					eraseLine();
@@ -753,29 +805,62 @@ void control::gameStart()
 			}
 			else if (input == '1' || input == '2')
 			{
-				//if (inventory[input - '0' - 1] > 0)
-				//{
+				if (inventory[input - '0' - 1] > 0)
+				{
 					useItem(input - '0');
 					curblock.setcoord(36, 6);
 					continue;
-				//}
+				}
+			}
+			else if ((input == 'a' || input == 'A' )&& !usedHoldTHisTurn)
+			{
+				for (int i = 0; i < 20; i++)
+				{
+					for (int j = 0; j < 10; j++)
+					{
+						if (board[i][j] % 7 == 1)
+							board[i][j] = 0;
+					}
+				}
+				if (!holdIsEmpty)
+				{
+					tempblock.setshape(curblock.getshape());
+					curblock.setshape(holdblock.getshape());
+					holdblock.setshape(tempblock.getshape());
+				}
+				else
+				{
+					holdblock.setshape(curblock.getshape());
+					curblock = nextblock[0];
+					for (int i = 0; i < 4; i++)
+					{
+						if (i != 3)
+							nextblock[i] = nextblock[i + 1];
+						else
+							nextblock[i].setshape(rand() % 7);
+						nextblock[i].setcoord(6, 6 + i * 4);
+					}
+				}
+				curblock.setcoord(36, 6);
+				holdIsEmpty = false;
+				usedHoldTHisTurn = true;
+				continue;
 			}
 		}
 		draw();
 		end = clock();
-		int speed = 1000 - (lines/10)*100;
-		if (speed < 300)
-			speed = 300;
+		int speed = 1000 - level * 80;
 		if (end - start >= speed)
 		{
 			curblock = moveblock(DOWN, curblock);
 			draw();
 			start = end;
 		}
-		if (end - start >= speed - 50)
+		if (end - start >= speed - 30)
 		{
 			if (crashcheck(board))
 			{
+				usedHoldTHisTurn = false;
 				for (int i = 0; i < 20; i++)
 				{
 					for (int j = 0; j < 10; j++)
@@ -797,8 +882,8 @@ void control::gameStart()
 					if (i != 3)
 						nextblock[i] = nextblock[i + 1];
 					else
-						nextblock[3].setshape(rand() % 7);
-					nextblock[i].setcoord(7, 6 + i * 4);
+						nextblock[i].setshape(rand() % 7);
+					nextblock[i].setcoord(6, 6 + i * 4);
 				}
 				curblock.setcoord(36, 6);
 				eraseLine();

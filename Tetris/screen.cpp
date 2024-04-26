@@ -4,8 +4,10 @@
 
 enum direction
 {
+    UP = 72,
     LEFT = 75,
-    RIGHT = 77
+    RIGHT = 77,
+    DOWN = 80
 };
 
 
@@ -124,6 +126,7 @@ void screen::titleScreen()
     cursorInfo.bVisible = false;
     SetConsoleCursorInfo(consoleHandle, &cursorInfo);
     short select = 0;
+    short difficulty_select = 0;
     drawTitle();
     gotoxy(10, 38);
     screen::textColor(15, 0);
@@ -156,6 +159,40 @@ void screen::titleScreen()
             }
             else if (input == 32)
             {
+                if (select == 0)
+                {
+                    gotoxy(10, 38);
+                    std::cout << " Level " << level << "     ";
+                    while (true)
+                    {
+                        if (_kbhit())
+                        {
+                           
+                            input = _getch();
+                            if (input == -32)
+                            {
+                                gotoxy(10, 38);
+                                std::cout << "              ";
+                                input = _getch();
+                                switch (input)
+                                {
+                                case UP:
+                                    if (level < 10)
+                                        level++;
+                                    break;
+                                case DOWN:
+                                    if (level > 0)
+                                        level--;
+                                    break;
+                                }
+                                gotoxy(10, 38);
+                                std::cout << " Level " << level;
+                            }
+                            else if (input == 32)
+                                break;
+                        }
+                    }
+                }
                 choice = select;
                 return;
             }
@@ -234,7 +271,7 @@ void screen::gameScreen()
     }
     for (int i = 0; i < 18; i++)
     {
-        gotoxy(5, 5 + i);
+        gotoxy(4, 5 + i);
         if (i == 0)
             std::cout << "¢Æ¢Æ¢Æ NEXT¢Æ¢Æ¢Æ";
         else if (i == 17)
@@ -242,7 +279,16 @@ void screen::gameScreen()
         else
             std::cout << "¢Æ         ¢Æ";
     }
-    
+    for (int i = 0; i < 6; i++)
+    {
+        gotoxy(17, 5 + i);
+        if (i == 0)
+            std::cout << "¢Æ¢Æ¢Æ HOLD¢Æ¢Æ¢Æ";
+        else if (i == 5)
+            std::cout << "¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ¢Æ";
+        else
+            std::cout << "¢Æ         ¢Æ";
+    }
     gotoxy(55, 4);
     std::cout << "      Á¶ÀÛÅ°     ";
     gotoxy(55, 6);
