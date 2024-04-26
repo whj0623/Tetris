@@ -94,7 +94,7 @@ int screen::gamePause()
             input = _getch();
             if (input == -32)
             {
-                gotoxy(37 + select * 13, 13);
+                gotoxy(38 + select * 13, 13);
                 std::cout << "  ";
                 input = _getch();
                 switch (input)
@@ -108,7 +108,7 @@ int screen::gamePause()
                         select++;
                     break;
                 }
-                gotoxy(37 + select * 13, 13);
+                gotoxy(38 + select * 13, 13);
                 std::cout << "▶";
             }
             else if (input == 32)
@@ -335,17 +335,18 @@ void screen::gameScreen()
         else
             std::cout << "▒         ▒";
     }
-    gotoxy(55, 4);
+    gotoxy(55,2);
     std::cout << "      조작키     ";
-    gotoxy(55, 6);
+    gotoxy(55, 4);
     std::cout << "     ▲      : 블럭 회전 ";
-    gotoxy(55, 7);
+    gotoxy(55, 5);
     std::cout << "   ◀▼▶    : 블럭 이동";
-    gotoxy(55, 9);
+    gotoxy(55, 7);
     std::cout << "  SPACE BAR  : 바닥까지 블럭 이동   ";
+    gotoxy(55, 9);
+    std::cout << " A : 홀드 ";
     gotoxy(55, 11);
-    std::cout << "  1 : 폭탄 사용      2 : 추 사용";
-
+    std::cout << " 1 : 폭탄 사용      2 : 추 사용";
 }
 
 

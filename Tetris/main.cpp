@@ -6,7 +6,7 @@
 
 int main()
 {
-	srand(time(NULL));
+	srand((short)time(NULL));
 	while (true)
 	{
 		system("mode con cols=120 lines=50");
@@ -24,7 +24,9 @@ int main()
 			shop::interaction();
 		}
 		else 
+		{ 
+			system("cls");
 			break;
-			
+		}
 	}
 }
