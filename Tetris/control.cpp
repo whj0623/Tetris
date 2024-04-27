@@ -403,6 +403,7 @@ void control::drawholdblock(Block holdblock, bool holdIsEmpty)
 void control::eraseLine()
 {
 	bool erasecheck = false;
+ 	int pickup = lines % 10;
 	for (int i = 0; i < 20; i++)
 	{
 		int count = 0;
@@ -421,6 +422,17 @@ void control::eraseLine()
 				score += (100 + level*15)*(combo+1);
 				erasecheck = true;
 				lines++;
+				if (pickup + 1 >= 10 && inventory[2] == 1)
+				{
+					pickup = 0;
+					int index = rand() % 2;
+					inventory[index]++;
+					screen::gotoxy(66 + index * 20, 28);
+					std::cout << " X     ";
+					screen::gotoxy(66 + index * 20, 28);
+					std::cout << " X " << inventory[index];
+					
+				}
 				if (level < lines / 10)
 					level = lines / 10 >= 10 ? 10 : lines / 10;
 			}
@@ -507,55 +519,6 @@ void control::PrintScore()
 	screen::gotoxy(55, 17);
 	std::cout << "  ÄÞº¸		: " << combo;
 }
-void control::itemInfo()
-{
-	int x = 55, y = 19;
-screen::gotoxy(x, y++);
-std::cout << "     "; screen::textColor(0, 15); std::cout << "  "; screen::textColor(0, 0); std::cout << "    ";
-screen::gotoxy(x, y++);
-std::cout << "    "; screen::textColor(0, 15); std::cout << " "; screen::textColor(0, 4); std::cout << " "; screen::textColor(0, 6); std::cout << " "; screen::textColor(0, 15); std::cout << " "; screen::textColor(0, 0); std::cout << "   ";
-screen::gotoxy(x, y++);
-std::cout << "    "; screen::textColor(0, 15); std::cout << " "; screen::textColor(0, 8); std::cout << " "; screen::textColor(0, 15); std::cout << " "; screen::textColor(0, 0); std::cout << "    ";
-screen::gotoxy(x, y++);
-std::cout << "    "; screen::textColor(0, 15); std::cout << " "; screen::textColor(0, 8); std::cout << " "; screen::textColor(0, 15); std::cout << " "; screen::textColor(0, 0); std::cout << "    ";
-screen::gotoxy(x, y++);
-std::cout << "   "; screen::textColor(0, 15); std::cout << " "; screen::textColor(0, 0); std::cout << "   "; screen::textColor(0, 15); std::cout << " "; screen::textColor(0, 0); std::cout << "   ";
-screen::gotoxy(x, y++);
-std::cout << "  "; screen::textColor(0, 15); std::cout << " "; screen::textColor(0, 0); std::cout << "   "; screen::textColor(0, 8); std::cout << " "; screen::textColor(0, 0); std::cout << " "; screen::textColor(0, 15); std::cout << " "; screen::textColor(0, 0); std::cout << "  ";
-screen::gotoxy(x, y++);
-std::cout << "  "; screen::textColor(0, 15); std::cout << " "; screen::textColor(0, 0); std::cout << "   "; screen::textColor(0, 8); std::cout << " "; screen::textColor(0, 0); std::cout << " "; screen::textColor(0, 15); std::cout << " "; screen::textColor(0, 0); std::cout << "  ";
-screen::gotoxy(x, y++);
-std::cout << "  "; screen::textColor(0, 15); std::cout << " "; screen::textColor(0, 0); std::cout << "  "; screen::textColor(0, 8); std::cout << " "; screen::textColor(0, 0); std::cout << "  "; screen::textColor(0, 15); std::cout << " "; screen::textColor(0, 0); std::cout << "  ";
-screen::gotoxy(x, y++);
-std::cout << "   "; screen::textColor(0, 15); std::cout << " "; screen::textColor(0, 0); std::cout << "   "; screen::textColor(0, 15); std::cout << " "; screen::textColor(0, 0); std::cout << "   ";
-screen::gotoxy(x, y++);
-std::cout << "    "; screen::textColor(0, 15); std::cout << "   "; screen::textColor(0, 0); std::cout << "    ";
-screen::textColor(15, 0); std::cout << " X " << inventory[0];
-
-x = 75, y = 19;
-screen::gotoxy(x, y++);
-std::cout << "    "; screen::textColor(0, 8); std::cout << "   "; screen::textColor(0, 0); std::cout << "    ";
-screen::gotoxy(x, y++);
-std::cout << "    "; screen::textColor(0, 8); std::cout << " "; screen::textColor(0, 0); std::cout << " "; screen::textColor(0, 8); std::cout << " "; screen::textColor(0, 0); std::cout << "    ";
-screen::gotoxy(x, y++);
-std::cout << "   "; screen::textColor(0, 8); std::cout << "     "; screen::textColor(0, 0); std::cout << "   ";
-screen::gotoxy(x, y++);
-std::cout << "   "; screen::textColor(0, 8); std::cout << "  "; screen::textColor(0, 0); std::cout << " "; screen::textColor(0, 8); std::cout << "  "; screen::textColor(0, 0); std::cout << "   ";
-screen::gotoxy(x, y++);
-std::cout << "   "; screen::textColor(0, 8); std::cout << "  "; screen::textColor(0, 0); std::cout << " "; screen::textColor(0, 8); std::cout << "  "; screen::textColor(0, 0); std::cout << "   ";
-screen::gotoxy(x, y++);
-std::cout << "  "; screen::textColor(0, 8); std::cout << "  "; screen::textColor(0, 0); std::cout << "   "; screen::textColor(0, 8); std::cout << "  "; screen::textColor(0, 0); std::cout << "  ";
-screen::gotoxy(x, y++);
-std::cout << "  "; screen::textColor(0, 8); std::cout << "   "; screen::textColor(0, 0); std::cout << " "; screen::textColor(0, 8); std::cout << "   "; screen::textColor(0, 0); std::cout << "  ";
-screen::gotoxy(x, y++);
-std::cout << " "; screen::textColor(0, 8); std::cout << "    "; screen::textColor(0, 0); std::cout << " "; screen::textColor(0, 8); std::cout << "    "; screen::textColor(0, 0); std::cout << " ";
-screen::gotoxy(x, y++);
-std::cout << " "; screen::textColor(0, 8); std::cout << "    "; screen::textColor(0, 0); std::cout << "  "; screen::textColor(0, 8); std::cout << "   "; screen::textColor(0, 0); std::cout << " ";
-screen::gotoxy(x, y++);
-std::cout << " "; screen::textColor(0, 8); std::cout << "         "; screen::textColor(0, 0); std::cout << " ";
-
-screen::textColor(15, 0); std::cout << " X " << inventory[1];
-}
 
 
 bool gameOverCheck()
@@ -592,6 +555,8 @@ void control::moveItem(char input, COORD * item)
 }
 void control::useItem(int index)
 {
+	
+	
 	for (int i = 0; i < 20; i++)
 	{
 		for (int j = 0; j < 10; j++)
@@ -610,6 +575,10 @@ void control::useItem(int index)
 	inventory[index - 1]--;
 	item.X = 5, item.Y = 3;
 	
+	screen::gotoxy(66 + (index - 1) * 20, 28);
+	std::cout << " X     ";
+	screen::gotoxy(66 + (index - 1) * 20, 28);
+	std::cout << " X " << inventory[index-1];
 	clock_t start, end;
 	start = clock();
 	while (true)
@@ -727,9 +696,12 @@ void control::useItem(int index)
 
 void control::gameStart()
 {
+	inventory[0] = 10;
+	inventory[1] = 10;
+	inventory[2] = 1;
+	inventory[3] = 1;
 	Resetgame();
 	screen::gameScreen();
-	itemInfo();
 	clock_t start, end;
 	Block curblock, nextblock[4], holdblock,tempblock;
 	bool holdIsEmpty = true;
@@ -743,6 +715,7 @@ void control::gameStart()
 	start = clock();
 	while (true)
 	{
+		
 		PrintScore();
 		addblock(curblock, board);
 		MakeShadow(curblock.getshape());
@@ -780,6 +753,7 @@ void control::gameStart()
 						nextblock[i].setcoord(6, 6 + i * 4);
 					}
 					curblock.setcoord(36, 6);
+					
 					eraseLine();
 				}
 				continue;
@@ -807,8 +781,10 @@ void control::gameStart()
 			{
 				if (inventory[input - '0' - 1] > 0)
 				{
+					
 					eraseShadow();
 					useItem(input - '0');
+					
 					curblock.setcoord(36, 6);
 					continue;
 				}

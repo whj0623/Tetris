@@ -347,6 +347,52 @@ void screen::gameScreen()
     std::cout << " A : È¦µå ";
     gotoxy(55, 11);
     std::cout << " 1 : ÆøÅº »ç¿ë      2 : Ãß »ç¿ë";
+    int x = 55, y = 19;
+    screen::gotoxy(x, y++);
+    std::cout << "     "; screen::textColor(0, 15); std::cout << "  "; screen::textColor(0, 0); std::cout << "    ";
+    screen::gotoxy(x, y++);
+    std::cout << "    "; screen::textColor(0, 15); std::cout << " "; screen::textColor(0, 4); std::cout << " "; screen::textColor(0, 6); std::cout << " "; screen::textColor(0, 15); std::cout << " "; screen::textColor(0, 0); std::cout << "   ";
+    screen::gotoxy(x, y++);
+    std::cout << "    "; screen::textColor(0, 15); std::cout << " "; screen::textColor(0, 8); std::cout << " "; screen::textColor(0, 15); std::cout << " "; screen::textColor(0, 0); std::cout << "    ";
+    screen::gotoxy(x, y++);
+    std::cout << "    "; screen::textColor(0, 15); std::cout << " "; screen::textColor(0, 8); std::cout << " "; screen::textColor(0, 15); std::cout << " "; screen::textColor(0, 0); std::cout << "    ";
+    screen::gotoxy(x, y++);
+    std::cout << "   "; screen::textColor(0, 15); std::cout << " "; screen::textColor(0, 0); std::cout << "   "; screen::textColor(0, 15); std::cout << " "; screen::textColor(0, 0); std::cout << "   ";
+    screen::gotoxy(x, y++);
+    std::cout << "  "; screen::textColor(0, 15); std::cout << " "; screen::textColor(0, 0); std::cout << "   "; screen::textColor(0, 8); std::cout << " "; screen::textColor(0, 0); std::cout << " "; screen::textColor(0, 15); std::cout << " "; screen::textColor(0, 0); std::cout << "  ";
+    screen::gotoxy(x, y++);
+    std::cout << "  "; screen::textColor(0, 15); std::cout << " "; screen::textColor(0, 0); std::cout << "   "; screen::textColor(0, 8); std::cout << " "; screen::textColor(0, 0); std::cout << " "; screen::textColor(0, 15); std::cout << " "; screen::textColor(0, 0); std::cout << "  ";
+    screen::gotoxy(x, y++);
+    std::cout << "  "; screen::textColor(0, 15); std::cout << " "; screen::textColor(0, 0); std::cout << "  "; screen::textColor(0, 8); std::cout << " "; screen::textColor(0, 0); std::cout << "  "; screen::textColor(0, 15); std::cout << " "; screen::textColor(0, 0); std::cout << "  ";
+    screen::gotoxy(x, y++);
+    std::cout << "   "; screen::textColor(0, 15); std::cout << " "; screen::textColor(0, 0); std::cout << "   "; screen::textColor(0, 15); std::cout << " "; screen::textColor(0, 0); std::cout << "   ";
+    screen::gotoxy(x, y++);
+    std::cout << "    "; screen::textColor(0, 15); std::cout << "   "; screen::textColor(0, 0); std::cout << "    ";
+    screen::textColor(15, 0); std::cout << " X " << inventory[0];
+
+    x = 75, y = 19;
+    screen::gotoxy(x, y++);
+    std::cout << "    "; screen::textColor(0, 8); std::cout << "   "; screen::textColor(0, 0); std::cout << "    ";
+    screen::gotoxy(x, y++);
+    std::cout << "    "; screen::textColor(0, 8); std::cout << " "; screen::textColor(0, 0); std::cout << " "; screen::textColor(0, 8); std::cout << " "; screen::textColor(0, 0); std::cout << "    ";
+    screen::gotoxy(x, y++);
+    std::cout << "   "; screen::textColor(0, 8); std::cout << "     "; screen::textColor(0, 0); std::cout << "   ";
+    screen::gotoxy(x, y++);
+    std::cout << "   "; screen::textColor(0, 8); std::cout << "  "; screen::textColor(0, 0); std::cout << " "; screen::textColor(0, 8); std::cout << "  "; screen::textColor(0, 0); std::cout << "   ";
+    screen::gotoxy(x, y++);
+    std::cout << "   "; screen::textColor(0, 8); std::cout << "  "; screen::textColor(0, 0); std::cout << " "; screen::textColor(0, 8); std::cout << "  "; screen::textColor(0, 0); std::cout << "   ";
+    screen::gotoxy(x, y++);
+    std::cout << "  "; screen::textColor(0, 8); std::cout << "  "; screen::textColor(0, 0); std::cout << "   "; screen::textColor(0, 8); std::cout << "  "; screen::textColor(0, 0); std::cout << "  ";
+    screen::gotoxy(x, y++);
+    std::cout << "  "; screen::textColor(0, 8); std::cout << "   "; screen::textColor(0, 0); std::cout << " "; screen::textColor(0, 8); std::cout << "   "; screen::textColor(0, 0); std::cout << "  ";
+    screen::gotoxy(x, y++);
+    std::cout << " "; screen::textColor(0, 8); std::cout << "    "; screen::textColor(0, 0); std::cout << " "; screen::textColor(0, 8); std::cout << "    "; screen::textColor(0, 0); std::cout << " ";
+    screen::gotoxy(x, y++);
+    std::cout << " "; screen::textColor(0, 8); std::cout << "    "; screen::textColor(0, 0); std::cout << "  "; screen::textColor(0, 8); std::cout << "   "; screen::textColor(0, 0); std::cout << " ";
+    screen::gotoxy(x, y++);
+    std::cout << " "; screen::textColor(0, 8); std::cout << "         "; screen::textColor(0, 0); std::cout << " ";
+
+    screen::textColor(15, 0); std::cout << " X " << inventory[1];
 }
 
 
