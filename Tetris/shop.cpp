@@ -248,7 +248,7 @@ void shop::showItemInformation(short index)
     std::cout << "³ª°¡±â : ESC";
 }
 
-void shop::shorteraction()
+void shop::interaction()
 {
     char input;
     short select = 0;

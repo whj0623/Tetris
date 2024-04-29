@@ -9,7 +9,7 @@
 class shop
 {
 public:
-	static void shorteraction();
+	static void interaction();
 	static void buyItem(short index);
 	static void showItem(short index,short x , short y);
 	static void showItemInformation(short index);

@@ -23,7 +23,7 @@ enum input
 short level = 0;
 short gold = 0;
 short earn_gold = 0;
-short inventory[4] = { 0 };
+short inventory[4] = { 3,3,0,0 };
 short choice = 0;
 short score = 0;
 short lines = 9;
@@ -217,7 +217,7 @@ const bool blocks[7][4][4][4]=
 	}
 };
 
-bool control::crashcheck(short board[20][10])
+bool maingame::crashcheck(short board[20][10])
 {
 	for (short i = 0; i < 20; i++)
 	{
@@ -234,7 +234,7 @@ bool control::crashcheck(short board[20][10])
 }
 
 
-void control::addblock(Block block, short board[20][10])
+void maingame::addblock(Block block, short board[20][10])
 {
 	for (short i = 0; i < 4; ++i)
 	{
@@ -246,7 +246,7 @@ void control::addblock(Block block, short board[20][10])
 		}
 	}
 }
-void control::drawblock(short a)
+void maingame::drawblock(short a)
 {
 	if (a == 999)
 	{
@@ -280,7 +280,7 @@ void control::drawblock(short a)
 	screen::textColor(WHITE, 0);
 }
 
-void control::draw()
+void maingame::draw()
 {
 	for (short i = 0; i < 20; i++)
 	{
@@ -292,7 +292,7 @@ void control::draw()
 	}
 }
 
-Block control::moveblock(char input, Block block)
+Block maingame::moveblock(char input, Block block)
 {
 	short tempboard[20][10] = { 0 };
 	Block tempblock = block;
@@ -357,7 +357,7 @@ Block control::moveblock(char input, Block block)
 	return block;
 }
 
-void control::drawnextblock(Block nextblock[])
+void maingame::drawnextblock(Block nextblock[])
 {
 	for (short k = 0; k < 4; k++)
 	{
@@ -379,7 +379,7 @@ void control::drawnextblock(Block nextblock[])
 	}
 }
 
-void control::drawholdblock(Block holdblock, bool holdIsEmpty)
+void maingame::drawholdblock(Block holdblock, bool holdIsEmpty)
 {
 	if (holdIsEmpty)
 		return;
@@ -400,7 +400,7 @@ void control::drawholdblock(Block holdblock, bool holdIsEmpty)
 	screen::textColor(WHITE, 0);
 }
 
-void control::eraseLine()
+void maingame::eraseLine()
 {
 	bool erasecheck = false;
  	short temp = lines % 10;
@@ -446,7 +446,7 @@ void control::eraseLine()
 		combo = 0;
 }
 
-void control::Resetgame()
+void maingame::Resetgame()
 {
 	score = 0;
 	lines = 0;
@@ -459,7 +459,7 @@ void control::Resetgame()
 	}
 }
 
-void control::MakeShadow(short color)
+void maingame::MakeShadow(short color)
 {
 	short x[8] = { 0 };
 	short y[8] = { 0 };
@@ -500,7 +500,7 @@ void control::MakeShadow(short color)
 			board[y[i]][x[i]] = color * 7 + 3;
 	}
 }
-void control::eraseShadow()
+void maingame::eraseShadow()
 {
 	for (short i = 0; i < 20; i++)
 	{
@@ -512,7 +512,7 @@ void control::eraseShadow()
 	}
 }
 
-void control::PrshortScore()
+void maingame::PrintScore()
 {
 	screen::gotoxy(55, 13);
 	std::cout << "  Á¡¼ö		: " << score;
@@ -538,7 +538,7 @@ bool gameOverCheck()
 	return false;
 }
 
-void control::moveItem(char input, COORD * item)
+void maingame::moveItem(char input, COORD * item)
 {
 	
 	if (input == RIGHT)
@@ -557,7 +557,7 @@ void control::moveItem(char input, COORD * item)
 			item->Y++;
 	}
 }
-void control::useItem(short index)
+void maingame::useItem(short index)
 {
 	for (short i = 0; i < 20; i++)
 	{
@@ -696,13 +696,10 @@ void control::useItem(short index)
 	}
 }
 
-void control::gameStart()
+void maingame::gameStart()
 {
-	inventory[0] = 3;
-	inventory[1] = 3;
-
 	Resetgame();
-	lines = 9;
+
 	screen::gameScreen();
 	clock_t start, end;
 	Block curblock, nextblock[4], holdblock,tempblock;
@@ -718,7 +715,7 @@ void control::gameStart()
 	while (true)
 	{
 		
-		PrshortScore();
+		PrintScore();
 		addblock(curblock, board);
 		MakeShadow(curblock.getshape());
 		drawnextblock(nextblock);

@@ -19,13 +19,13 @@ extern short itemPrise[4];
 
 #endif
 
-class control
+class maingame
 {
 public: 
 	static void gameStart();
 	static void draw();
 	static void eraseShadow();
-	static void PrshortScore();
+	static void PrintScore();
 	static void MakeShadow(short color);
 	static void Resetgame();
 	static void eraseLine();

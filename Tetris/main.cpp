@@ -15,15 +15,15 @@ int main()
 		screen::titleScreen();
 		if (choice == 0)
 		{
-			control::gameStart();
+			maingame::gameStart();
 			while (continue_game)
-				control::gameStart();
+				maingame::gameStart();
 		}
 		else if (choice == 1)
 		{
 			system("cls");
 			screen::shopScreen();
-			shop::shorteraction();
+			shop::interaction();
 		}
 		else 
 		{ 
