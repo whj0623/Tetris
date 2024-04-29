@@ -1,7 +1,7 @@
 #include "shop.h"
 
 
-int itemPrise[4] = { 5,5,50,100 };
+short itemPrise[4] = { 5,5,50,100 };
 
 enum direction
 {
@@ -12,7 +12,7 @@ enum direction
 };
 
 
-void shop::buyItem(int select)
+void shop::buyItem(short select)
 {
     if ((select == 3 || select == 2) && inventory[select] == 1)
     {
@@ -45,12 +45,12 @@ void shop::buyItem(int select)
     }
 }
 
-void shop::showItem(int index,int x, int y)
+void shop::showItem(short index,short x, short y)
 {
-    int posy = 6;
+    short posy = 6;
     screen::gotoxy(80, posy);
     std::cout << "┌───────────────────────┐";
-    for (int i = 0; i < 25; i++)
+    for (short i = 0; i < 25; i++)
     {
         screen::gotoxy(80, posy++);
         std::cout << "│                       │";
@@ -185,17 +185,17 @@ void shop::showItem(int index,int x, int y)
     screen::textColor(15, 0);
 }
 
-void shop::showItemInformation(int index)
+void shop::showItemInformation(short index)
 {
     showItem(index,86,6);
-    int x = 86, y = 21;
+    short x = 86, y = 21;
     screen::gotoxy(x,y);
     switch (index)
     {
     case 0:
         screen::gotoxy(x, y++);
         std::cout << "폭탄. ( 1 x 1 )";
-        screen::gotoxy(x-3, ++y);
+        screen::gotoxy(x - 3, ++y);
         std::cout << "충돌 시 충돌한 지점을";
         screen::gotoxy(x - 3, ++y);
         std::cout << "중심으로 5 x 5 영역의";
@@ -207,9 +207,9 @@ void shop::showItemInformation(int index)
     case 1:
         screen::gotoxy(x, y++);
         std::cout << "추. ( 1 x 1 )";
-        screen::gotoxy(x-3 , ++y);
+        screen::gotoxy(x - 3 , ++y);
         std::cout << "충돌한 열의 공백을";
-        screen::gotoxy(x -3, ++y);
+        screen::gotoxy(x - 3, ++y);
         std::cout << "전부 밀어 없앱니다.";
         screen::gotoxy(x - 3, y + 2);
         std::cout << "보유 개수 : " << inventory[index];
@@ -228,7 +228,7 @@ void shop::showItemInformation(int index)
             std::cout << "(보유중)";
         break;
     case 3:
-        screen::gotoxy(x -4, y++);
+        screen::gotoxy(x - 4, y++);
         std::cout << "그림자 (패시브 아이템)";
         screen::gotoxy(x - 3, ++y);
         std::cout << "블록이 떨어질 지점에";
@@ -248,10 +248,10 @@ void shop::showItemInformation(int index)
     std::cout << "나가기 : ESC";
 }
 
-void shop::interaction()
+void shop::shorteraction()
 {
     char input;
-    int select = 0;
+    short select = 0;
     drawSelect(select,14);
     showItemInformation(select);
     while (true)
@@ -304,14 +304,14 @@ void shop::interaction()
     }
 }
 
-void shop::drawSelect(int index,int color)
+void shop::drawSelect(short index,short color)
 {
     if (index == 3)
     {
-        int x = 7, y = 22;
+        short x = 7, y = 22;
         screen::gotoxy(x, y);
         screen::textColor(0, color); std::cout << "                      ";
-        for (int i = 0; i < 13; i++)
+        for (short i = 0; i < 13; i++)
         {
             screen::gotoxy(x, ++y);
             std::cout << "  ";
@@ -323,10 +323,10 @@ void shop::drawSelect(int index,int color)
     }
     else
     {
-        int x = 7 + 24 * index, y = 6;
+        short x = 7 + 24 * index, y = 6;
         screen::gotoxy(x, y);
         screen::textColor(0, color); std::cout << "                      ";
-        for (int i = 0; i < 13; i++)
+        for (short i = 0; i < 13; i++)
         {
             screen::gotoxy(x, ++y);
             std::cout << "  ";

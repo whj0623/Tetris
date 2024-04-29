@@ -3,15 +3,16 @@
 #include <Windows.h>
 #include <iostream>
 #include <conio.h>
-#include "control.h"
+#include "maingame.h"
+
 
 class shop
 {
 public:
-	static void interaction();
-	static void buyItem(int index);
-	static void showItem(int index,int x , int y);
-	static void showItemInformation(int index);
-	static void drawSelect(int index,int color);
+	static void shorteraction();
+	static void buyItem(short index);
+	static void showItem(short index,short x , short y);
+	static void showItemInformation(short index);
+	static void drawSelect(short index,short color);
 };
 

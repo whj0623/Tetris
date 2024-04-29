@@ -115,7 +115,7 @@
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
+      <ConformanceMode>false</ConformanceMode>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -140,12 +140,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Block.h" />
-    <ClInclude Include="control.h" />
+    <ClInclude Include="maingame.h" />
     <ClInclude Include="screen.h" />
     <ClInclude Include="shop.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="control.cpp" />
+    <ClCompile Include="maingame.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="screen.cpp" />
     <ClCompile Include="shop.cpp" />

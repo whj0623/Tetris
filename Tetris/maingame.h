@@ -9,13 +9,13 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-extern int level;
-extern int gold;
-extern int earn_gold;
-extern int choice;
+extern short level;
+extern short gold;
+extern short earn_gold;
+extern short choice;
 extern bool continue_game;
-extern int inventory[4];
-extern int itemPrise[4];
+extern short inventory[4];
+extern short itemPrise[4];
 
 #endif
 
@@ -25,16 +25,16 @@ public:
 	static void gameStart();
 	static void draw();
 	static void eraseShadow();
-	static void PrintScore();
-	static void MakeShadow(int color);
+	static void PrshortScore();
+	static void MakeShadow(short color);
 	static void Resetgame();
 	static void eraseLine();
 	static void drawnextblock(Block nextblock[]);
 	static Block moveblock(char input, Block block);
-	static void drawblock(int a);
-	static void addblock(Block block, int board[20][10]);
-	static bool crashcheck(int board[20][10]);
-	static void useItem(int index);
+	static void drawblock(short a);
+	static void addblock(Block block, short board[20][10]);
+	static bool crashcheck(short board[20][10]);
+	static void useItem(short index);
 	static void moveItem(char input, COORD* item);
 	static void drawholdblock(Block holdblock, bool holdIsEmpty);
 };

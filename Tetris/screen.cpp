@@ -17,7 +17,7 @@ void screen::gotoxy(short x, short y)
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
 }
 
-void screen::textColor(int font, int background)
+void screen::textColor(short font, short background)
 {
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), font + background * 16);
 }
@@ -26,14 +26,14 @@ void screen::drawTitle()
     gotoxy(20, 3);
     screen::textColor(1, 0);
     std::cout << "■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■";
-    for (int i = 0; i < 14; i++)
+    for (short i = 0; i < 14; i++)
     {
         gotoxy(20, i + 4);
         std::cout << "■                                                                          ■";
     }
     gotoxy(20, 18);
     std::cout << "■■■■■■■■■■■■■                          ■■■■■■■■■■■■■";
-    for (int i = 0; i < 14; i++)
+    for (short i = 0; i < 14; i++)
     {
         gotoxy(44, i + 19);
         std::cout << "■                          ■";
@@ -42,7 +42,7 @@ void screen::drawTitle()
     gotoxy(44, 33);
     std::cout << "■■■■■■■■■■■■■■■";
 
-    int title_x =  22, title_y =  5;
+    short title_x =  22, title_y =  5;
     gotoxy(title_x, title_y++);
     std::cout << "  "; screen::textColor(0, 12 );std::cout << "          "; screen::textColor(0,  0);std::cout << " "; screen::textColor(0, 9);std::cout << "           "; screen::textColor(0,  0);std::cout << " "; screen::textColor(0,  14 );std::cout << "          "; screen::textColor(0,  0);std::cout << " "; screen::textColor(0, 10);std::cout << "           "; screen::textColor(0,  0);std::cout << "    "; screen::textColor(0,   11);std::cout << "    "; screen::textColor(0,  0);std::cout << "  "; screen::textColor(0, 13);std::cout << "               "; screen::textColor(0,  0);
     gotoxy(title_x, title_y++);
@@ -65,18 +65,18 @@ void screen::drawTitle()
     std::cout << "     "; screen::textColor(0, 12); std::cout << "    "; screen::textColor(0, 0); std::cout << "    "; screen::textColor(0, 9); std::cout << "            "; screen::textColor(0, 0); std::cout << "   "; screen::textColor(0, 14); std::cout << "    "; screen::textColor(0, 0); std::cout << "    "; screen::textColor(0, 10); std::cout << "    "; screen::textColor(0, 0); std::cout << "     "; screen::textColor(0, 10); std::cout << "     "; screen::textColor(0, 0); std::cout << " "; screen::textColor(0, 11); std::cout << "    "; screen::textColor(0, 0); std::cout << " "; screen::textColor(0, 13); std::cout << "              "; screen::textColor(0, 0);
     gotoxy(title_x, title_y++);
     std::cout << "     "; screen::textColor(0, 12); std::cout << "    "; screen::textColor(0, 0); std::cout << "     "; screen::textColor(0, 9); std::cout << "            "; screen::textColor(0, 0); std::cout << "  "; screen::textColor(0, 14); std::cout << "    "; screen::textColor(0, 0); std::cout << "    "; screen::textColor(0, 10); std::cout << "    "; screen::textColor(0, 0); std::cout << "      "; screen::textColor(0, 10); std::cout << "    "; screen::textColor(0, 0); std::cout << " "; screen::textColor(0, 11); std::cout << "    "; screen::textColor(0, 0); std::cout << " "; screen::textColor(0, 13); std::cout << "               "; screen::textColor(0, 0);
-    gotoxy(title_x, title_y++);
+    gotoxy(title_x, title_y);
     std::cout << "     "; screen::textColor(0, 12); std::cout << "    "; screen::textColor(0, 0); std::cout << "      "; screen::textColor(0, 9); std::cout << "            "; screen::textColor(0, 0); std::cout << " "; screen::textColor(0, 14); std::cout << "    "; screen::textColor(0, 0); std::cout << "    "; screen::textColor(0, 10); std::cout << "    "; screen::textColor(0, 0); std::cout << "       "; screen::textColor(0, 10); std::cout << "   "; screen::textColor(0, 0); std::cout << " "; screen::textColor(0, 11); std::cout << "    "; screen::textColor(0, 0); std::cout << " "; screen::textColor(0, 13); std::cout << "              "; screen::textColor(0, 0);
     
     
     
 }
 
-int screen::gamePause()
+short screen::gamePause()
 {
     char input;
-    int select = 0;
-    int x = 35, y = 10;
+    short select = 0;
+    short x = 35, y = 10;
     gotoxy(x, y++);
     std::cout << " ┌─────────────────────────────────────┐";
     gotoxy(x, y++);
@@ -85,7 +85,7 @@ int screen::gamePause()
     std::cout << " │                                     │";
     gotoxy(x, y++);
     std::cout << " │    게임 재개    새 게임     타이틀로│";
-    gotoxy(x, y++);
+    gotoxy(x, y);
     std::cout << " └─────────────────────────────────────┘";
     while (true)
     {
@@ -116,9 +116,9 @@ int screen::gamePause()
         }
     }
 }
-void screen::drawSelect(int select, int color)
+void screen::drawSelect(short select, short color)
 {
-    int x = 13 + select * 34, y = 38;
+    short x = 13 + select * 34, y = 38;
     
     gotoxy(x, y);
     textColor(color, 0);
@@ -237,7 +237,7 @@ void screen::titleScreen()
 
 void screen::gameOver()
 {
-    int x = 24, y = 7;
+    short x = 24, y = 7;
     gotoxy(x, y++);
     std::cout << " ┌──────────────────────────────────────┐";
     gotoxy(x, y++);
@@ -264,7 +264,7 @@ void screen::gameOver()
     gotoxy(x, y++);
     std::cout << " └──────────────────────────────────────┘";
    
-    int select = 0;
+    short select = 0;
     while (true)
     {
         char input;
@@ -304,37 +304,40 @@ void screen::gameOver()
 
 void screen::gameScreen()
 {
-    system("cls");
+    //system("cls");
     system("mode con cols=100 lines=30");
-    for (int i = 0; i < 22; i++)
+    short color = level + 1;
+    textColor(color, 0);
+    for (short i = 0; i < 22; i++)
     {
         gotoxy(30, 5+i);
         if (i == 0 || i == 21)
-            std::cout << "▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒";
+            std::cout << "▣▣▣▣▣▣▣▣▣▣▣▣";
         else
-            std::cout << "▒                     ▒";
+            std::cout << "▣                    ▣";
 
     }
-    for (int i = 0; i < 18; i++)
+    for (short i = 0; i < 18; i++)
     {
         gotoxy(4, 5 + i);
         if (i == 0)
-            std::cout << "▒▒▒ NEXT▒▒▒";
+            std::cout << "▣▣NEXT▣▣";
         else if (i == 17)
-            std::cout << "▒▒▒▒▒▒▒▒▒▒▒";
+            std::cout << "▣▣▣▣▣▣";
         else
-            std::cout << "▒         ▒";
+            std::cout << "▣        ▣";
     }
-    for (int i = 0; i < 6; i++)
+    for (short i = 0; i < 6; i++)
     {
         gotoxy(17, 5 + i);
         if (i == 0)
-            std::cout << "▒▒▒ HOLD▒▒▒";
-        else if (i == 5)
-            std::cout << "▒▒▒▒▒▒▒▒▒▒▒";
+            std::cout << "▣▣HOLD▣▣";
+        else if (i == 5) 
+            std::cout << "▣▣▣▣▣▣";
         else
-            std::cout << "▒         ▒";
+            std::cout << "▣        ▣";
     }
+    textColor(15, 0);
     gotoxy(55,2);
     std::cout << "      조작키     ";
     gotoxy(55, 4);
@@ -347,7 +350,7 @@ void screen::gameScreen()
     std::cout << " A : 홀드 ";
     gotoxy(55, 11);
     std::cout << " 1 : 폭탄 사용      2 : 추 사용";
-    int x = 55, y = 19;
+    short x = 55, y = 19;
     screen::gotoxy(x, y++);
     std::cout << "     "; screen::textColor(0, 15); std::cout << "  "; screen::textColor(0, 0); std::cout << "    ";
     screen::gotoxy(x, y++);
@@ -401,10 +404,10 @@ void screen::shopScreen()
     
     system("mode con cols=110 lines=40");
     
-    int y = 5;
+    short y = 5;
     gotoxy(5, y++);
     std::cout << "┌───────────────────────┬───────────────────────┬───────────────────────┐";
-    for (int i = 0; i < 31; i++)
+    for (short i = 0; i < 31; i++)
     {
         gotoxy(5, y++);
         if (i == 15)
@@ -422,7 +425,7 @@ void screen::shopScreen()
     y = 6;
     gotoxy(80, 5);
     std::cout << "┌───────────────────────┐";
-    for (int i = 0; i < 25; i++)
+    for (short i = 0; i < 25; i++)
     {
         gotoxy(80, y++);
         std::cout << "│                       │";

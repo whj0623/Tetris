@@ -2,7 +2,8 @@
 #include <Windows.h>
 #include <iostream>
 #include <conio.h>
-#include "control.h"
+#include "maingame.h"
+
 
 
 class screen
@@ -13,9 +14,9 @@ public:
     static void gameScreen();
     static void shopScreen();
     static void gotoxy(short x, short y);
-    static void textColor(int font, int background);
+    static void textColor(short font, short background);
     static void drawTitle();
-    static int gamePause();
-    static void drawSelect(int select, int color);
+    static short gamePause();
+    static void drawSelect(short select, short color);
 };
 

@@ -1,11 +1,13 @@
 #pragma once
-#include "control.h"
+#include "maingame.h"
 #include "screen.h"
 #include "shop.h"
-
+#include <mmsystem.h>
+#pragma comment(lib,"winmm.lib")
 
 int main()
 {
+	PlaySound((LPCWSTR)"Tetris.wav", 0, SND_FILENAME | SND_ASYNC | SND_LOOP);
 	srand((short)time(NULL));
 	while (true)
 	{
@@ -21,7 +23,7 @@ int main()
 		{
 			system("cls");
 			screen::shopScreen();
-			shop::interaction();
+			shop::shorteraction();
 		}
 		else 
 		{ 
