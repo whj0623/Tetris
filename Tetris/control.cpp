@@ -518,6 +518,8 @@ void control::PrintScore()
 	std::cout << "  Áö¿î ÁÙ	: " << lines;
 	screen::gotoxy(55, 17);
 	std::cout << "  ÄÞº¸		: " << combo;
+	screen::gotoxy(38, 2);
+	std::cout << " Level " << level;
 }
 
 
@@ -698,8 +700,6 @@ void control::gameStart()
 {
 	inventory[0] = 10;
 	inventory[1] = 10;
-	inventory[2] = 1;
-	inventory[3] = 1;
 	Resetgame();
 	screen::gameScreen();
 	clock_t start, end;
