@@ -13,7 +13,5 @@ public:
 	static void showItem(int index,int x , int y);
 	static void showItemInformation(int index);
 	static void drawSelect(int index,int color);
-	static void needMoreCash();
-	static void alreadyHave();
 };
 

@@ -698,8 +698,8 @@ void control::useItem(int index)
 
 void control::gameStart()
 {
-	inventory[0] = 10;
-	inventory[1] = 10;
+	inventory[0] = 3;
+	inventory[1] = 3;
 	Resetgame();
 	screen::gameScreen();
 	clock_t start, end;
@@ -868,15 +868,3 @@ void control::gameStart()
 		}
 	}
 }
-
-/*
-남은 작업:
-
-	1. 아이템,상점 구현
-
-추가적인 작업:
-	
-	2. 홀드 기능 구현
-	3. 타이틀 화면 보수
-	
-*/

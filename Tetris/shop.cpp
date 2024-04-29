@@ -12,36 +12,37 @@ enum direction
 };
 
 
-void shop::buyItem(int index)
+void shop::buyItem(int select)
 {
-	gold -= itemPrise[index];
-	inventory[index]++;
-    screen::gotoxy(40, 20);
-    std::cout << "┌─────────┐";
-    screen::gotoxy(40, 21);
-    std::cout << "│ 구매완료│";
-    screen::gotoxy(40, 22);
-    std::cout << "└─────────┘";
-}
-void shop::needMoreCash()
-{
-    screen::gotoxy(40, 20);
-    std::cout << "┌─────────┐";
-    screen::gotoxy(40, 21);
-    std::cout << "│ 잔액부족│";
-    screen::gotoxy(40, 22);
-    std::cout << "└─────────┘";
-
-}
-
-void shop::alreadyHave()
-{
-    screen::gotoxy(40, 20);
-    std::cout << "┌──────────────┐";
-    screen::gotoxy(40, 21);
-    std::cout << "│  이미 보유중 │";
-    screen::gotoxy(40, 22);
-    std::cout << "└──────────────┘";
+    if ((select == 3 || select == 2) && inventory[select] == 1)
+    {
+        screen::gotoxy(40, 20);
+        std::cout << "┌──────────────┐";
+        screen::gotoxy(40, 21);
+        std::cout << "│  이미 보유중 │";
+        screen::gotoxy(40, 22);
+        std::cout << "└──────────────┘";
+    }
+    else if (gold >= itemPrise[select])
+    {
+        gold -= itemPrise[select];
+        inventory[select]++;
+        screen::gotoxy(40, 20);
+        std::cout << "┌─────────┐";
+        screen::gotoxy(40, 21);
+        std::cout << "│ 구매완료│";
+        screen::gotoxy(40, 22);
+        std::cout << "└─────────┘";
+    }
+    else
+    {
+        screen::gotoxy(40, 20);
+        std::cout << "┌─────────┐";
+        screen::gotoxy(40, 21);
+        std::cout << "│ 잔액부족│";
+        screen::gotoxy(40, 22);
+        std::cout << "└─────────┘";
+    }
 }
 
 void shop::showItem(int index,int x, int y)
@@ -290,12 +291,8 @@ void shop::interaction()
             }
             else if (input == 32)
             {
-                if ((select == 3 || select == 2 ) && inventory[select] == 1)
-                    alreadyHave();
-                else if (gold >= itemPrise[select])
-                    buyItem(select);
-                else
-                    needMoreCash();
+                buyItem(select);
+  
                 Sleep(1000);
                 screen::shopScreen();
                 drawSelect(select,14);
